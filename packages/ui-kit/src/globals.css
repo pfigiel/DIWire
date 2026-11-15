@@ -1,0 +1,34 @@
+/* This file stays unlayered to outrank the theme Mantine injects at runtime, which is unlayered. */
+@layer mantine, ui-kit;
+
+/* Every rem scales off this; a percentage keeps the browser's font-size setting in play. */
+html {
+  font-size: 100%;
+}
+
+/* Every transition reads this token, so zeroing it here stops them all at once. The selector is
+   doubled to outrank the `:root` block Mantine injects at runtime with the rest of the theme. */
+@media (prefers-reduced-motion: reduce) {
+  :root:root {
+    --dw-motion-duration: 0ms;
+  }
+}
+
+/* The surface ladder: each element marked `data-surface` sits one step further from the page than the
+   surface it is nested in, up to the third. The current surface's colour reaches everything inside it,
+   so a fade or a pinned column matches whatever it sits on. */
+:root {
+  --dw-surface-background-color: var(--dw-surface-canvas-background-color);
+}
+
+[data-surface] {
+  @mixin surface 1;
+}
+
+[data-surface] [data-surface] {
+  @mixin surface 2;
+}
+
+[data-surface] [data-surface] [data-surface] {
+  @mixin surface 3;
+}
