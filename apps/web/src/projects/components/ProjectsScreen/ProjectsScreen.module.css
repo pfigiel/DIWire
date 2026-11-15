@@ -1,0 +1,30 @@
+.root {
+  display: grid;
+  gap: var(--dw-spacing-xl);
+  align-content: start;
+  width: min(100%, var(--dw-layout-width-lg));
+  margin-inline: auto;
+  padding: var(--dw-spacing-xl) var(--dw-spacing-lg);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dw-spacing-md);
+  align-items: end;
+  justify-content: space-between;
+}
+
+.icon {
+  width: var(--dw-icon-size-md);
+  height: var(--dw-icon-size-md);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--dw-layout-width-xs), 1fr));
+  gap: var(--dw-spacing-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

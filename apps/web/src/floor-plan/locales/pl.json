@@ -1,0 +1,65 @@
+{
+  "home": "Wszystkie projekty",
+  "modules": {
+    "label": "Moduły",
+    "floorPlan": "Rzut",
+    "electrical": "Elektryka"
+  },
+  "floors": {
+    "add": "Dodaj kondygnację"
+  },
+  "steps": {
+    "label": "Kroki rzutu",
+    "file": "Plik",
+    "crop": "Kadrowanie i obrót",
+    "scale": "Skala",
+    "walls": "Ściany",
+    "dimensions": "Wymiary",
+    "openings": "Drzwi i okna"
+  },
+  "failed": "Nie udało się zapisać. Spróbuj ponownie.",
+  "zoom": {
+    "out": "Pomniejsz",
+    "in": "Powiększ",
+    "fit": "Dopasuj"
+  },
+  "file": {
+    "hint": "PDF, JPG lub PNG z rzutem tej kondygnacji.",
+    "pickPage": "Wybierz stronę z rzutem tej kondygnacji.",
+    "reading": "Wczytywanie pliku…",
+    "unreadable": "Nie udało się odczytać tego pliku. Wybierz inny.",
+    "drop": "Upuść tutaj rzut kondygnacji",
+    "formats": "PDF, JPG lub PNG",
+    "choose": "Wybierz plik",
+    "change": "Zmień",
+    "page": "Strona {{number}}",
+    "pages": "Strony pliku",
+    "summary": "{{name}} · strona {{number}}",
+    "preview": "Podgląd rzutu",
+    "next": "Dalej: kadrowanie"
+  },
+  "crop": {
+    "frame": "Kadr",
+    "frameHint": "Ustaw krawędzie ramki dokładnie na zewnętrznych ścianach budynku.",
+    "rotate": "Obrót",
+    "left": "W lewo",
+    "right": "W prawo",
+    "fine": "Dokładny obrót",
+    "summary": "Obrócono o {{angle}}",
+    "canvas": "Rzut z ramką kadrowania",
+    "next": "Dalej: skala"
+  },
+  "scale": {
+    "hint": "Wpisz zewnętrzną szerokość i wysokość budynku ze swojego rzutu.",
+    "width": "Szerokość",
+    "height": "Wysokość",
+    "unit": "cm",
+    "canvas": "Rzut przycięty do zewnętrznych ścian budynku",
+    "next": "Dalej: ściany",
+    "summary": "{{width}} × {{height}}"
+  },
+  "walls": {
+    "hint": "Rzut jest gotowy do rysowania ścian. Ten krok pojawi się wkrótce.",
+    "canvas": "Rzut przycięty do zewnętrznych ścian budynku"
+  }
+}

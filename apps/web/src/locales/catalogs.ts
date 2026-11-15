@@ -1,13 +1,15 @@
 import accountPl from '@/account/locales/pl.json'
 import authPl from '@/auth/locales/pl.json'
-import homePl from '@/home/locales/pl.json'
+import floorPlanPl from '@/floor-plan/locales/pl.json'
+import projectsPl from '@/projects/locales/pl.json'
 
 export const defaultLocale = 'pl'
 
 const pl = {
   account: accountPl,
   auth: authPl,
-  home: homePl,
+  floorPlan: floorPlanPl,
+  projects: projectsPl,
 }
 
 export const catalogs = { pl }

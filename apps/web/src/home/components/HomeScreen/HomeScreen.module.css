@@ -1,6 +1,0 @@
-.root {
-  display: grid;
-  gap: var(--dw-spacing-sm);
-  place-content: center;
-  min-height: calc(100dvh - var(--dw-shell-header-height));
-}

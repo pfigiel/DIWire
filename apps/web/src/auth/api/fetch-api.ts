@@ -1,12 +1,22 @@
 import { getSession } from './session'
 
-export const fetchApi = async <Body>(path: string): Promise<Body> => {
+type Options = {
+  method: 'POST' | 'PATCH'
+  body?: unknown
+}
+
+export const fetchApi = async <Body>(path: string, options?: Options): Promise<Body> => {
   const session = await getSession()
 
   if (session === null) throw new Error(`${path} needs a signed-in user`)
 
   const response = await fetch(`${import.meta.env.VITE_API_URL}${path}`, {
-    headers: { Authorization: `Bearer ${session.access_token}` },
+    method: options?.method,
+    headers: {
+      Authorization: `Bearer ${session.access_token}`,
+      ...(options?.body === undefined ? {} : { 'Content-Type': 'application/json' }),
+    },
+    body: options?.body === undefined ? undefined : JSON.stringify(options.body),
   })
 
   if (!response.ok) throw new Error(`${path} failed with ${response.status}`)

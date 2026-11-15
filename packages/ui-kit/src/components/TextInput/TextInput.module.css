@@ -1,0 +1,22 @@
+.label {
+  margin-bottom: var(--dw-spacing-xs);
+  color: var(--dw-text-color-default);
+  font-size: var(--dw-text-font-size-sm);
+  font-weight: var(--dw-font-weight-medium);
+}
+
+.input {
+  @mixin transition;
+
+  height: var(--dw-control-height-md);
+  border-color: var(--dw-border-color);
+  border-radius: var(--dw-radius-md);
+  background-color: var(--dw-surface-1-background-color);
+  color: var(--dw-text-color-default);
+  font-size: var(--dw-text-font-size-md);
+  transition-property: border-color;
+
+  &:focus {
+    border-color: var(--dw-accent-color-default);
+  }
+}

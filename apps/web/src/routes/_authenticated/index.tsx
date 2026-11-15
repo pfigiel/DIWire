@@ -1,6 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { HomeScreen } from '@/home/components/HomeScreen'
+import { projectsQuery } from '@/projects/api/projects-query'
+import { ProjectsScreen } from '@/projects/components/ProjectsScreen'
 
 export const Route = createFileRoute('/_authenticated/')({
-  component: HomeScreen,
+  loader: ({ context }) => context.queryClient.ensureQueryData(projectsQuery),
+  component: ProjectsScreen,
 })

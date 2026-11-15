@@ -1,0 +1,73 @@
+.root {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--dw-layout-width-xs), 1fr));
+  gap: var(--dw-spacing-lg);
+  align-content: start;
+  height: 100%;
+  margin: 0;
+  padding: var(--dw-spacing-xl);
+  overflow-y: auto;
+  list-style: none;
+}
+
+.page {
+  display: grid;
+  gap: var(--dw-spacing-sm);
+  justify-items: center;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--dw-text-color-default);
+  font: inherit;
+  font-size: var(--dw-text-font-size-sm);
+  cursor: pointer;
+
+  &[aria-pressed='true'] {
+    color: var(--dw-accent-color-default);
+    font-weight: var(--dw-font-weight-semibold);
+  }
+}
+
+.sheet {
+  @mixin transition;
+
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--dw-radius-md);
+  outline: 1px solid var(--dw-border-color);
+  transition-property: outline-color;
+
+  .page:hover & {
+    outline-color: var(--dw-accent-color-default);
+  }
+
+  .page[aria-pressed='true'] & {
+    outline: 3px solid var(--dw-accent-color-default);
+  }
+}
+
+.thumbnail {
+  display: block;
+  width: 100%;
+}
+
+.mark {
+  position: absolute;
+  top: var(--dw-spacing-sm);
+  right: var(--dw-spacing-sm);
+  display: grid;
+  place-content: center;
+  width: var(--dw-step-marker-size);
+  height: var(--dw-step-marker-size);
+  border-radius: var(--dw-radius-full);
+  background-color: var(--dw-accent-color-default);
+  color: var(--dw-accent-contrast-color);
+}
+
+.check {
+  width: var(--dw-icon-size-sm);
+  height: var(--dw-icon-size-sm);
+}
