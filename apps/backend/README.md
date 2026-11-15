@@ -37,8 +37,8 @@ Auth may send a user back to. It declares only what differs from the defaults.
 - **Locally**, with Docker running: `pnpm build`, then `pnpm exec supabase start` serves the
   function at `http://127.0.0.1:54321/functions/v1/api`.
 - **Deploying** happens on every merge to `main`, in
-  [the CI workflow](../../.github/workflows/ci.yml): it pushes `config.toml` to the project, then
-  deploys the function. It names the project and reads `SUPABASE_ACCESS_TOKEN` and
+  [the deploy workflow](../../.github/workflows/deploy.yml): it pushes `config.toml` to the project,
+  then deploys the function. It names the project and reads `SUPABASE_ACCESS_TOKEN` and
   `SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET` from the repository's secrets. By hand, with the same
   variables exported: `pnpm config:push`, then `pnpm build` and `pnpm functions:deploy`.
 
