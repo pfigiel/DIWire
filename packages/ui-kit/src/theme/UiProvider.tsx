@@ -5,17 +5,15 @@ import './fonts'
 import { theme } from './theme'
 
 export type Props = {
-  /** Pins the scheme instead of following the system's; Storybook's toolbar sets it. */
-  colorScheme?: 'light' | 'dark'
   children: ReactNode
 }
 
-export const UiProvider = ({ colorScheme, children }: Props) => (
+// Forced rather than defaulted: a default yields to a scheme the browser has stored.
+export const UiProvider = ({ children }: Props) => (
   <MantineProvider
     theme={theme}
     cssVariablesResolver={cssVariablesResolver}
-    defaultColorScheme="auto"
-    forceColorScheme={colorScheme}
+    forceColorScheme="light"
   >
     {children}
   </MantineProvider>

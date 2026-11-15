@@ -13,12 +13,9 @@ Rules for adding a component or a token are in [AGENTS.md](../../AGENTS.md#ui).
 
 ## Theme
 
-`UiProvider` is the only provider an app mounts. The theme is fixed: `src/theme/tokens.ts` holds a
-light and a dark scheme, and `UiProvider` resolves them into the `--dw-*` custom properties
-stylesheets read. The scheme follows the system's unless `colorScheme` pins it.
-
-Tokens come in two kinds, both in `tokens.ts`: **scheme** tokens each scheme defines its own value
-for, and **fixed** tokens, the same in both.
+`UiProvider` is the only provider an app mounts. The theme is fixed: `src/theme/tokens.ts` holds
+every token, and `UiProvider` resolves them into the `--dw-*` custom properties stylesheets read.
+There is one colour scheme, light, whatever the system prefers.
 
 ## Stylesheets
 
@@ -28,5 +25,4 @@ stylesheets to compile.
 
 ## Stories
 
-`pnpm storybook` serves the component catalogue at http://localhost:6006. The toolbar switches the
-colour scheme through `UiProvider`, so every story can be read in both.
+`pnpm storybook` serves the component catalogue at http://localhost:6006.

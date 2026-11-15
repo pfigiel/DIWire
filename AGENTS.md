@@ -286,9 +286,8 @@ a `--mantine-*` one: those are Mantine's names for values we own, and stylelint 
 
 A token is written as a tree and its name is the path to it, joined by dashes: `text.color.dimmed`
 reaches a stylesheet as `--dw-text-color-dimmed`, `spacing.md` as `--dw-spacing-md`. Nest as deep as
-the name needs and no deeper. A token whose value changes with the colour scheme is a scheme token,
-so both the light and the dark scheme define it; one that is the same in both is a fixed token. Both
-live in `tokens.ts`. A token is added when a component reaches for it.
+the name needs and no deeper. Every token lives in `tokens.ts`, and one is added when a component
+reaches for it. The app has one colour scheme, light; there is no dark value to define.
 
 ### Surfaces
 

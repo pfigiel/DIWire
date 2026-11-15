@@ -9,7 +9,7 @@ const mantineStyles = readFileSync(nodeRequire.resolve('@mantine/core/styles.lay
 const config: StorybookConfig = {
   framework: '@storybook/react-vite',
   stories: [{ directory: '../src/components', titlePrefix: 'Components' }],
-  addons: ['@storybook/addon-themes', '@storybook/addon-a11y'],
+  addons: ['@storybook/addon-a11y'],
   core: { disableTelemetry: true },
   previewHead: (head) => `${head}<style>${mantineStyles}</style>`,
 }

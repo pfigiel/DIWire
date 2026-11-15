@@ -1,47 +1,10 @@
-type SchemeTokens = {
-  text: { color: Record<'default' | 'dimmed', string> }
-  accent: { color: Record<'default' | 'hover', string>; contrast: { color: string } }
-  /** Translucent, so a hovered control darkens or lightens whatever surface it sits on. */
-  control: { hover: { background: { color: string } } }
-  /** Translucent, so an edge or a divider stays as distinct on every surface it lies on. */
-  border: { color: string }
-  /** The page, then each level of nesting a step further from it; see `data-surface` in globals.css. */
-  surface: Record<'canvas' | 1 | 2 | 3, { background: { color: string } }>
-}
-
-export const schemeTokens: Record<'light' | 'dark', SchemeTokens> = {
-  light: {
-    text: { color: { default: '#1c1f24', dimmed: '#5f6773' } },
-    accent: { color: { default: '#2456d3', hover: '#1a3f9e' }, contrast: { color: '#ffffff' } },
-    control: { hover: { background: { color: 'rgb(0 0 0 / 5%)' } } },
-    border: { color: 'rgb(0 0 0 / 10%)' },
-    surface: {
-      canvas: { background: { color: '#f4f5f7' } },
-      1: { background: { color: '#ffffff' } },
-      2: { background: { color: '#f9fafb' } },
-      3: { background: { color: '#f1f3f5' } },
-    },
-  },
-  dark: {
-    text: { color: { default: '#e8eaed', dimmed: '#9aa1ab' } },
-    accent: { color: { default: '#2f62e0', hover: '#4474ea' }, contrast: { color: '#ffffff' } },
-    control: { hover: { background: { color: 'rgb(255 255 255 / 8%)' } } },
-    border: { color: 'rgb(255 255 255 / 10%)' },
-    surface: {
-      canvas: { background: { color: '#14161a' } },
-      1: { background: { color: '#1c1f24' } },
-      2: { background: { color: '#23272d' } },
-      3: { background: { color: '#2b3037' } },
-    },
-  },
-}
-
-export const fixedTokens = {
+export const tokens = {
   font: {
     family: { body: "'Inter Variable', system-ui, sans-serif" },
     weight: { regular: '400', semibold: '600', bold: '700' },
   },
   text: {
+    color: { default: '#1c1f24', dimmed: '#5f6773' },
     font: { size: { sm: '0.875rem', md: '1rem' } },
     line: { height: '1.6' },
   },
@@ -50,9 +13,23 @@ export const fixedTokens = {
     line: { height: '1.2' },
     letter: { spacing: '-0.02em' },
   },
+  accent: { color: { default: '#2456d3', hover: '#1a3f9e' }, contrast: { color: '#ffffff' } },
+  control: {
+    height: { sm: '2.25rem', md: '2.875rem' },
+    /** Translucent, so a hovered control darkens whatever surface it sits on. */
+    hover: { background: { color: 'rgb(0 0 0 / 5%)' } },
+  },
+  /** Translucent, so an edge or a divider stays as distinct on every surface it lies on. */
+  border: { color: 'rgb(0 0 0 / 10%)' },
+  /** The page, then each level of nesting a step further from it; see `data-surface` in globals.css. */
+  surface: {
+    canvas: { background: { color: '#f4f5f7' } },
+    1: { background: { color: '#ffffff' } },
+    2: { background: { color: '#f9fafb' } },
+    3: { background: { color: '#f1f3f5' } },
+  },
   spacing: { xs: '0.25rem', sm: '0.5rem', md: '1rem', lg: '1.5rem', xl: '2rem' },
   radius: { md: '0.625rem', lg: '1rem', full: '9999px' },
-  control: { height: { sm: '2.25rem', md: '2.875rem' } },
   shell: { header: { height: '3.75rem' } },
   logo: {
     size: { md: '1.75rem', lg: '2.5rem' },

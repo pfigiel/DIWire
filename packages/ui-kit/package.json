@@ -29,7 +29,6 @@
     "@diwire/postcss-config": "workspace:*",
     "@diwire/tsconfig": "workspace:*",
     "@storybook/addon-a11y": "10.6.5",
-    "@storybook/addon-themes": "10.6.5",
     "@storybook/react-vite": "10.6.5",
     "@types/node": "catalog:",
     "@types/react": "catalog:react",
