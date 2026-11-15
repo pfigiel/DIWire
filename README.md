@@ -51,7 +51,7 @@ Every task runs through turbo, so it covers each package that defines it.
 
 - **On commit** — Prettier, Stylelint, ESLint, `type:check` and `knip` over what you staged.
 - **On push** — `deps:audit`.
-- **On a pull request, and on `main` after a merge** — Prettier, ESLint, Stylelint, `type:check`,
-  `knip`, the build and the Storybook build, in [CI](.github/workflows/ci.yml).
-- **On `main` after a merge** — the API deploys to Supabase and the app to Vercel, in
-  [the deploy workflow](.github/workflows/deploy.yml).
+- **On a pull request** — Prettier, ESLint, Stylelint, `type:check`, `knip`, the build and the
+  Storybook build, in [CI](.github/workflows/ci.yml).
+- **On `main` after a merge** — the same checks, and once they pass the API deploys to Supabase and
+  the app to Vercel, in the same workflow run.
