@@ -1,0 +1,47 @@
+.dim {
+  fill: var(--dw-text-color-default);
+  fill-opacity: 0.45;
+  pointer-events: none;
+}
+
+.grid {
+  fill: none;
+  stroke: var(--dw-accent-color-default);
+  stroke-opacity: 0.35;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.frame {
+  fill: none;
+  stroke: var(--dw-accent-contrast-color);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.handle {
+  fill: var(--dw-accent-contrast-color);
+  stroke: var(--dw-accent-color-default);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  cursor: move;
+
+  &[data-edge-x]:not([data-edge-y]) {
+    cursor: ew-resize;
+  }
+
+  &[data-edge-y]:not([data-edge-x]) {
+    cursor: ns-resize;
+  }
+
+  &[data-edge-x='min'][data-edge-y='min'],
+  &[data-edge-x='max'][data-edge-y='max'] {
+    cursor: nwse-resize;
+  }
+
+  &[data-edge-x='min'][data-edge-y='max'],
+  &[data-edge-x='max'][data-edge-y='min'] {
+    cursor: nesw-resize;
+  }
+}

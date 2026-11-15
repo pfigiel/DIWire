@@ -1,0 +1,17 @@
+.line {
+  fill: none;
+  stroke: var(--dw-text-color-default);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.pill {
+  fill: var(--dw-surface-1-background-color);
+  stroke: var(--dw-border-color);
+}
+
+.label {
+  fill: var(--dw-text-color-default);
+  font-size: var(--dw-text-font-size-sm);
+  font-weight: var(--dw-font-weight-semibold);
+}

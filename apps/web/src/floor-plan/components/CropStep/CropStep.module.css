@@ -1,0 +1,29 @@
+.section {
+  display: grid;
+  gap: var(--dw-spacing-sm);
+}
+
+.turns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--dw-spacing-sm);
+}
+
+.icon {
+  width: var(--dw-icon-size-md);
+  height: var(--dw-icon-size-md);
+}
+
+.fine {
+  display: flex;
+  gap: var(--dw-spacing-md);
+  align-items: center;
+}
+
+.angle {
+  flex: none;
+  min-width: 3rem;
+  font-size: var(--dw-text-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}

@@ -13,9 +13,11 @@
   "dependencies": {
     "@diwire/ui-kit": "workspace:*",
     "@supabase/supabase-js": "2.119.0",
+    "@tabler/icons-react": "catalog:",
     "@tanstack/react-query": "5.103.2",
     "@tanstack/react-router": "1.170.39",
     "i18next": "26.4.2",
+    "pdfjs-dist": "6.5.438",
     "react": "catalog:react",
     "react-dom": "catalog:react",
     "react-i18next": "17.0.15"

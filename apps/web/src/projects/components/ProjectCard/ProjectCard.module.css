@@ -1,0 +1,33 @@
+.root {
+  @mixin transition;
+
+  display: block;
+  border-radius: var(--dw-radius-lg);
+  color: inherit;
+  text-decoration: none;
+  transition-property: box-shadow;
+
+  &:hover {
+    box-shadow: var(--dw-shadow-md);
+  }
+}
+
+.body {
+  display: grid;
+  gap: var(--dw-spacing-md);
+  padding: var(--dw-spacing-lg);
+}
+
+.floors {
+  display: grid;
+  gap: var(--dw-spacing-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.floor {
+  display: flex;
+  gap: var(--dw-spacing-md);
+  justify-content: space-between;
+}

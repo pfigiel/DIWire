@@ -1,0 +1,28 @@
+.empty {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: var(--dw-spacing-xl);
+}
+
+.file {
+  display: flex;
+  gap: var(--dw-spacing-sm);
+  align-items: center;
+}
+
+.icon {
+  flex: none;
+  width: var(--dw-icon-size-md);
+  height: var(--dw-icon-size-md);
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--dw-text-font-size-sm);
+  font-weight: var(--dw-font-weight-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

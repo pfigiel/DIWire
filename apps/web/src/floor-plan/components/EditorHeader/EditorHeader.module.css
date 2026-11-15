@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  gap: var(--dw-spacing-lg);
+  align-items: center;
+  align-self: stretch;
+  min-width: 0;
+}
+
+.home {
+  display: flex;
+  text-decoration: none;
+}
+
+.project {
+  overflow: hidden;
+  font-weight: var(--dw-font-weight-semibold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

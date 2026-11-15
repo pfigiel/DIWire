@@ -1,0 +1,19 @@
+{
+  "title": "Twoje projekty",
+  "empty": "Nie masz jeszcze żadnego projektu.",
+  "new": {
+    "open": "Nowy projekt",
+    "title": "Nowy projekt",
+    "name": "Nazwa projektu",
+    "create": "Utwórz projekt",
+    "failed": "Nie udało się utworzyć projektu. Spróbuj ponownie."
+  },
+  "floor": {
+    "ground": "Parter",
+    "upper": "Piętro {{number}}"
+  },
+  "floors_one": "{{count}} kondygnacja",
+  "floors_few": "{{count}} kondygnacje",
+  "floors_many": "{{count}} kondygnacji",
+  "floors_other": "{{count}} kondygnacji"
+}
