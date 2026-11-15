@@ -27,6 +27,19 @@ verifies the token against the project's public signing keys and leaves its clai
 `GET /api/account` is the first. The keys come from the project named by `SUPABASE_URL`, which the
 Edge runtime sets itself and `pnpm dev` reads from `.env.development`.
 
+## Database
+
+A route reads and writes Postgres through PostgREST as the user who called it: `databaseOf` in
+`src/database` builds a client that forwards the request's access token, so row level security
+decides what the request reaches and no route holds a key that bypasses it. The client needs the
+project's publishable key, which the Edge runtime provides as `SUPABASE_PUBLISHABLE_KEYS` and
+`pnpm dev` reads from `.env.development`.
+
+The schema lives in `supabase/migrations`, and `src/database/schema.ts` mirrors it for the types a
+query returns: a migration that changes a table changes that file with it. Plan images sit in the
+private `plans` storage bucket, each under a folder named after its owner's id; the web app uploads
+and reads them directly.
+
 ## Supabase
 
 The Supabase CLI is a dev dependency; run it with `pnpm exec supabase` from this folder.
@@ -38,9 +51,10 @@ Auth may send a user back to. It declares only what differs from the defaults.
   function at `http://127.0.0.1:54321/functions/v1/api`.
 - **Deploying** happens on every merge to `main`, in
   [the deploy workflow](../../.github/workflows/deploy.yml): it pushes `config.toml` to the project,
-  then deploys the function. It names the project and reads `SUPABASE_ACCESS_TOKEN` and
-  `SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET` from the repository's secrets. By hand, with the same
-  variables exported: `pnpm config:push`, then `pnpm build` and `pnpm functions:deploy`.
+  applies the migrations not yet applied, then deploys the function. It names the project and reads
+  `SUPABASE_ACCESS_TOKEN` and `SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET` from the repository's secrets.
+  By hand, with the same variables exported: `pnpm config:push`,
+  `pnpm db:push --remote=<project ref>`, then `pnpm build` and `pnpm functions:deploy`.
 
 The gateway does not verify a JWT for this function (`verify_jwt = false`): the app decides per
 route who may call it.
