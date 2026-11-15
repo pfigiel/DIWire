@@ -1,0 +1,50 @@
+/* Blueprint blue and see-through, so a traced wall never passes for a line of the plan under it. */
+.walls {
+  opacity: 0.75;
+}
+
+.outline {
+  fill: none;
+  stroke: var(--dw-accent-color-default);
+  stroke-width: 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.fill {
+  fill: color-mix(in srgb, var(--dw-accent-color-default) 40%, var(--dw-accent-contrast-color));
+}
+
+/* Lies over its wall and shows only once there is something to say about it. */
+.wall {
+  @mixin transition;
+
+  fill: var(--dw-accent-color-hover);
+  fill-opacity: 0;
+  transition-property: fill-opacity;
+
+  [data-selectable] > & {
+    cursor: pointer;
+
+    &:hover {
+      fill-opacity: 0.45;
+    }
+  }
+
+  &[data-state] {
+    fill-opacity: 1;
+  }
+}
+
+.draft {
+  fill: var(--dw-accent-color-default);
+  fill-opacity: 0.85;
+  pointer-events: none;
+}
+
+.joint {
+  fill: var(--dw-accent-contrast-color);
+  stroke: var(--dw-accent-color-hover);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}

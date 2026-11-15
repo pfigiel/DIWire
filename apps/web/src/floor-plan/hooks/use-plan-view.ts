@@ -21,6 +21,14 @@ export type PlanView = {
   sheetPointOf: (event: ClientPoint) => Point
 }
 
+/** What the pointer does on the sheet besides panning it. Points are on the sheet, and `scale` is the view's at that moment, for a tolerance meant in screen pixels. */
+type Pointing = {
+  /** A press that did not turn into a drag. */
+  onClick?: (point: Point, scale: number) => void
+  /** Where the pointer rests, or null once it has left the sheet. */
+  onHover?: (point: Point | null, scale: number) => void
+}
+
 const fitMarginPx = 80
 const dragThresholdPx = 4
 const zoomStep = 1.25
@@ -46,14 +54,15 @@ const zoomedOf = (transform: Transform, factor: number, anchor: Point): Transfor
 })
 
 /** Pan and zoom over a sheet: the view fits `bounds` until the user moves it, and again once they ask to fit. */
-export const usePlanView = (bounds: Rect) => {
+export const usePlanView = (bounds: Rect, { onClick, onHover }: Pointing) => {
   const [element, setElement] = useState<SVGSVGElement | null>(null)
   const [size, setSize] = useState<Size | null>(null)
   const [moved, setMoved] = useState<Transform | null>(null)
-  const drag = useRef<{ last: Point; travelled: number } | null>(null)
+  const drag = useRef<{ origin: Point; last: Point; travelled: number } | null>(null)
 
   const fitted = size === null || size.width === 0 ? null : fittedOf(bounds, size)
   const transform = moved ?? fitted
+  const scale = transform?.scale ?? 1
 
   const change = (next: (current: Transform) => Transform) => {
     setMoved((current) => {
@@ -120,14 +129,20 @@ export const usePlanView = (bounds: Rect) => {
   }, [element])
 
   const startDrag = (event: PointerEvent) => {
-    if (event.button === 0)
-      drag.current = { last: { x: event.clientX, y: event.clientY }, travelled: 0 }
+    if (event.button !== 0) return
+
+    const last = { x: event.clientX, y: event.clientY }
+    drag.current = { origin: sheetPointOf(event), last, travelled: 0 }
   }
 
-  const continueDrag = (event: PointerEvent<SVGSVGElement>) => {
+  const move = (event: PointerEvent<SVGSVGElement>) => {
     const dragged = drag.current
 
-    if (dragged === null) return
+    if (dragged === null) {
+      onHover?.(sheetPointOf(event), scale)
+
+      return
+    }
 
     const step = { x: event.clientX - dragged.last.x, y: event.clientY - dragged.last.y }
     dragged.travelled += Math.hypot(step.x, step.y)
@@ -140,21 +155,29 @@ export const usePlanView = (bounds: Rect) => {
   }
 
   const endDrag = () => {
+    const dragged = drag.current
+    drag.current = null
+
+    if (dragged !== null && dragged.travelled < dragThresholdPx) onClick?.(dragged.origin, scale)
+  }
+
+  const cancelDrag = () => {
     drag.current = null
   }
 
   return {
     ref: setElement,
     transform,
-    view: { scale: transform?.scale ?? 1, sheetPointOf } satisfies PlanView,
+    view: { scale, sheetPointOf } satisfies PlanView,
     zoomIn: () => zoomBy(zoomStep),
     zoomOut: () => zoomBy(1 / zoomStep),
     fit: () => setMoved(null),
     pointerHandlers: {
       onPointerDown: startDrag,
-      onPointerMove: continueDrag,
+      onPointerMove: move,
       onPointerUp: endDrag,
-      onPointerCancel: endDrag,
+      onPointerCancel: cancelDrag,
+      onPointerLeave: () => onHover?.(null, scale),
     },
   }
 }

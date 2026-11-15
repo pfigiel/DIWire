@@ -5,6 +5,12 @@ export type Point = {
   y: number
 }
 
+/** A drag across the sheet, from where it was pressed to where it is now. */
+export type Stroke = {
+  from: Point
+  to: Point
+}
+
 /** Which of a rectangle's edges a handle moves; a corner names one on each axis. */
 export type Edges = {
   x?: 'min' | 'max'

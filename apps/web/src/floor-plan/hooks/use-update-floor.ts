@@ -8,6 +8,8 @@ export const useUpdateFloor = () => {
   const { project, floor } = useFloorEditor()
 
   return useMutation({
+    // One at a time per floor, so an earlier save can never land after a later one.
+    scope: { id: floor.id },
     mutationFn: (changes: FloorChanges) => updateFloor(project.id, floor.id, changes),
     onSuccess: (updated, _changes, _result, { client }) => {
       client.setQueryData(

@@ -1,0 +1,15 @@
+.root {
+  display: grid;
+  gap: var(--dw-spacing-sm);
+}
+
+/* Each swatch is as thick as its wall is, at one pixel for every four centimetres. */
+@each $kind, $height in (exterior, loadBearing, partition), (11px, 6px, 3px) {
+  .$(kind) {
+    flex: none;
+    width: var(--dw-spacing-lg);
+    height: $(height);
+    border-radius: 1px;
+    background-color: var(--dw-text-color-default);
+  }
+}
