@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/main.ts",
+    "dev": "tsx watch --env-file=.env.development src/main.ts",
     "build": "esbuild src/app.ts --bundle --format=esm --platform=neutral --minify --outfile=supabase/functions/api/app.js",
+    "config:push": "supabase config push",
     "functions:deploy": "supabase functions deploy api --use-api",
     "lint": "eslint .",
     "type:check": "tsc --noEmit"

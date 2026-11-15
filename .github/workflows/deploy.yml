@@ -19,6 +19,10 @@ jobs:
       - uses: ./.github/actions/setup
       - run: pnpm build --filter=@diwire/backend
       # The CLI asks before it changes a hosted project, and a runner has no terminal to answer on.
+      - run: pnpm --filter @diwire/backend config:push --yes
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET: ${{ secrets.SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET }}
       - run: pnpm --filter @diwire/backend functions:deploy --yes
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
