@@ -1,0 +1,28 @@
+{
+  "name": "@diwire/backend",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "esbuild src/app.ts --bundle --format=esm --platform=neutral --minify --outfile=supabase/functions/api/app.js",
+    "functions:deploy": "supabase functions deploy api",
+    "lint": "eslint .",
+    "type:check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "4.13.18"
+  },
+  "devDependencies": {
+    "@diwire/eslint-config": "workspace:*",
+    "@diwire/tsconfig": "workspace:*",
+    "@hono/node-server": "2.1.8",
+    "@types/node": "catalog:",
+    "esbuild": "0.28.2",
+    "eslint": "catalog:",
+    "jiti": "catalog:",
+    "supabase": "3.1.0",
+    "tsx": "4.23.15",
+    "typescript": "catalog:"
+  }
+}
