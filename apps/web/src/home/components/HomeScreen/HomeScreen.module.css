@@ -2,5 +2,5 @@
   display: grid;
   gap: var(--dw-spacing-sm);
   place-content: center;
-  min-height: 100vh;
+  min-height: calc(100dvh - var(--dw-shell-header-height));
 }

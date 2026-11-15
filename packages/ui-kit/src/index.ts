@@ -1,3 +1,8 @@
 export { UiProvider } from './theme/UiProvider'
+export { AppShell } from './components/AppShell'
+export { AvatarMenu } from './components/AvatarMenu'
+export { Button } from './components/Button'
+export { Card } from './components/Card'
 export { Heading } from './components/Heading'
+export { Logo } from './components/Logo'
 export { Text } from './components/Text'
