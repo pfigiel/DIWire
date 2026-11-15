@@ -15,11 +15,15 @@
       "cache": false,
       "persistent": true
     },
+    // No package defines it: it runs nothing, and only makes a task's cache key cover what its dependencies contain.
+    "transit": {
+      "dependsOn": ["^transit"]
+    },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["transit"]
     },
     "type:check": {
-      "dependsOn": ["^type:check"]
+      "dependsOn": ["transit"]
     },
     "storybook": {
       "cache": false,
