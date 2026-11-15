@@ -1,0 +1,108 @@
+.root {
+  display: grid;
+  gap: var(--dw-spacing-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  gap: var(--dw-spacing-md);
+  align-items: center;
+  width: 100%;
+  padding: var(--dw-spacing-sm);
+  border-radius: var(--dw-radius-md);
+  color: var(--dw-text-color-default);
+  font-size: var(--dw-text-font-size-sm);
+}
+
+.link {
+  @mixin transition;
+
+  border: 0;
+  background-color: transparent;
+  font-family: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition-property: background-color;
+
+  &:hover {
+    background-color: var(--dw-control-hover-background-color);
+  }
+}
+
+.dimmed {
+  color: var(--dw-text-color-dimmed);
+}
+
+.label {
+  flex: 1;
+  font-weight: var(--dw-font-weight-medium);
+}
+
+.summary {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--dw-text-color-dimmed);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card {
+  display: grid;
+  gap: var(--dw-spacing-md);
+  padding: var(--dw-spacing-md);
+  border: 1px solid var(--dw-border-color);
+  border-radius: var(--dw-radius-md);
+}
+
+.heading {
+  display: flex;
+  gap: var(--dw-spacing-md);
+  align-items: center;
+}
+
+.title {
+  color: var(--dw-text-color-default);
+  font-size: var(--dw-text-font-size-md);
+  font-weight: var(--dw-font-weight-bold);
+}
+
+.marker {
+  display: grid;
+  flex: none;
+  place-content: center;
+  width: var(--dw-step-marker-size);
+  height: var(--dw-step-marker-size);
+  border: 1.5px solid transparent;
+  border-radius: var(--dw-radius-full);
+  font-size: var(--dw-text-font-size-xs);
+  font-weight: var(--dw-font-weight-semibold);
+  line-height: 1;
+}
+
+.done {
+  background-color: var(--dw-success-color);
+  color: var(--dw-success-contrast-color);
+}
+
+.current {
+  background-color: var(--dw-accent-color-default);
+  color: var(--dw-accent-contrast-color);
+}
+
+.available {
+  border-color: var(--dw-text-color-default);
+  color: var(--dw-text-color-default);
+}
+
+.upcoming {
+  border-color: var(--dw-text-color-dimmed);
+  color: var(--dw-text-color-dimmed);
+}
+
+.check {
+  width: var(--dw-icon-size-sm);
+  height: var(--dw-icon-size-sm);
+}

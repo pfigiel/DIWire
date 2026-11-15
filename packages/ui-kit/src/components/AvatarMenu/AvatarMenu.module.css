@@ -3,8 +3,8 @@
 
   display: grid;
   place-content: center;
-  width: var(--dw-control-height-sm);
-  height: var(--dw-control-height-sm);
+  width: var(--dw-control-height-xs);
+  height: var(--dw-control-height-xs);
   border: 1px solid var(--dw-border-color);
   border-radius: var(--dw-radius-full);
   color: var(--dw-text-color-default);

@@ -1,0 +1,72 @@
+.root {
+  @mixin transition;
+  @mixin surface 1;
+
+  width: min(100%, var(--dw-dropzone-width));
+  padding: var(--dw-spacing-xl);
+  border: 2px dashed var(--dw-border-color);
+  border-radius: var(--dw-radius-lg);
+  color: var(--dw-text-color-default);
+  transition-property: border-color;
+
+  &:hover {
+    background-color: var(--dw-surface-background-color);
+  }
+
+  &[data-accept] {
+    border-color: var(--dw-accent-color-default);
+    background-color: var(--dw-surface-background-color);
+  }
+}
+
+.inner {
+  display: grid;
+  gap: var(--dw-spacing-md);
+  justify-items: center;
+  padding-block: var(--dw-spacing-xl);
+  text-align: center;
+}
+
+.mark {
+  display: grid;
+  place-content: center;
+  width: var(--dw-dropzone-mark-size);
+  height: var(--dw-dropzone-mark-size);
+  border-radius: var(--dw-radius-full);
+  background-color: var(--dw-accent-color-subtle);
+  color: var(--dw-accent-color-default);
+}
+
+.icon {
+  width: var(--dw-dropzone-icon-size);
+  height: var(--dw-dropzone-icon-size);
+}
+
+.title {
+  font-size: var(--dw-heading-font-size-md);
+  font-weight: var(--dw-font-weight-semibold);
+}
+
+.hint {
+  color: var(--dw-text-color-dimmed);
+  font-size: var(--dw-text-font-size-sm);
+}
+
+.action {
+  @mixin transition;
+
+  display: grid;
+  place-content: center;
+  height: var(--dw-control-height-md);
+  padding-inline: var(--dw-spacing-lg);
+  border-radius: var(--dw-radius-md);
+  background-color: var(--dw-accent-color-default);
+  color: var(--dw-accent-contrast-color);
+  font-size: var(--dw-text-font-size-md);
+  font-weight: var(--dw-font-weight-semibold);
+  transition-property: background-color;
+}
+
+.root:hover .action {
+  background-color: var(--dw-accent-color-hover);
+}

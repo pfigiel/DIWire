@@ -1,0 +1,6 @@
+.root {
+  --slider-color: var(--dw-accent-color-default);
+  --slider-track-bg: var(--dw-border-color);
+
+  flex: 1;
+}

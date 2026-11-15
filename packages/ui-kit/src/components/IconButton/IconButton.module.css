@@ -1,0 +1,20 @@
+.root {
+  @mixin transition;
+
+  width: var(--dw-control-height-md);
+  height: var(--dw-control-height-sm);
+  border: 1px solid var(--dw-border-color);
+  border-radius: var(--dw-radius-md);
+  background-color: transparent;
+  color: var(--dw-text-color-default);
+  transition-property: background-color;
+
+  &:hover {
+    background-color: var(--dw-control-hover-background-color);
+  }
+
+  & svg {
+    width: var(--dw-icon-size-md);
+    height: var(--dw-icon-size-md);
+  }
+}

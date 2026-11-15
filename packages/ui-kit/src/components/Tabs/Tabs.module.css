@@ -1,0 +1,41 @@
+.root {
+  align-self: stretch;
+}
+
+.list {
+  gap: var(--dw-spacing-lg);
+  height: 100%;
+
+  &::before {
+    display: none;
+  }
+}
+
+.tab {
+  @mixin transition;
+
+  padding: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  color: var(--dw-text-color-dimmed);
+  font-size: var(--dw-text-font-size-md);
+  font-weight: var(--dw-font-weight-medium);
+  transition-property: color, border-color;
+
+  &:hover {
+    border-color: transparent;
+    background-color: transparent;
+    color: var(--dw-text-color-default);
+  }
+
+  &[data-active] {
+    border-color: var(--dw-accent-color-default);
+    color: var(--dw-text-color-default);
+    font-weight: var(--dw-font-weight-semibold);
+  }
+
+  &:disabled {
+    color: var(--dw-text-color-dimmed);
+    cursor: not-allowed;
+  }
+}

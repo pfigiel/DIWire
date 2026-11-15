@@ -5,3 +5,17 @@
   padding-inline: var(--dw-spacing-lg);
   border-bottom-color: var(--dw-border-color);
 }
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: var(--dw-spacing-md);
+  overflow-y: auto;
+  border-right-color: var(--dw-border-color);
+}
+
+/* Pinned to the viewport, so a child can fill what the header and the sidebar leave with `height: 100%`. */
+.workspace {
+  height: 100dvh;
+  background-color: var(--dw-workspace-background-color);
+}
