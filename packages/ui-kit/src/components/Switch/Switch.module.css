@@ -1,0 +1,28 @@
+.body {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.labelWrapper {
+  flex: 1;
+}
+
+.label {
+  padding-inline-end: var(--dw-spacing-md);
+  color: var(--dw-text-color-default);
+  font-size: var(--dw-text-font-size-sm);
+  font-weight: var(--dw-font-weight-semibold);
+  cursor: pointer;
+}
+
+.track {
+  @mixin transition;
+
+  cursor: pointer;
+  transition-property: background-color, border-color;
+
+  input:checked + & {
+    border-color: var(--dw-accent-color-default);
+    background-color: var(--dw-accent-color-default);
+  }
+}

@@ -59,7 +59,25 @@
     "summary": "{{width}} × {{height}}"
   },
   "walls": {
-    "hint": "Rzut jest gotowy do rysowania ścian. Ten krok pojawi się wkrótce.",
-    "canvas": "Rzut przycięty do zewnętrznych ścian budynku"
+    "type": "Rodzaj ściany",
+    "kinds": {
+      "exterior": "Zewnętrzna",
+      "loadBearing": "Nośna",
+      "partition": "Działowa",
+      "custom": "Inna grubość"
+    },
+    "thickness": "Grubość",
+    "unit": "cm",
+    "delete": "Usuń ścianę",
+    "underlay": "Rzut pod spodem",
+    "room": "Pomieszczenie {{number}}",
+    "canvas": "Rzut z narysowanymi ścianami",
+    "drawHint": "Kliknij tam, gdzie ściana się zaczyna, a potem tam, gdzie się kończy. Esc przerywa rysowanie. Ściany są zawsze proste.",
+    "selectHint": "Kliknij ścianę, żeby zmienić jej rodzaj albo ją usunąć.",
+    "tools": {
+      "label": "Narzędzie",
+      "draw": "Rysuj",
+      "select": "Zaznacz"
+    }
   }
 }

@@ -21,7 +21,7 @@ const stepScreenOf = (floor: Floor, activeStep: Step) => {
     return <ScaleStep plan={floor.plan} crop={floor.crop} />
   }
 
-  return <WallsStep plan={floor.plan} crop={floor.crop} />
+  return <WallsStep plan={floor.plan} crop={floor.crop} outline={floor.outline} />
 }
 
 export const FloorEditor = ({ project, floor }: Props) => {

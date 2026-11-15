@@ -1,5 +1,17 @@
 export type Step = 'file' | 'crop' | 'scale' | 'walls' | 'dimensions' | 'openings'
 
+type WallEnd = { wallId: string } | { position: number }
+
+type Wall = {
+  id: string
+  orientation: 'horizontal' | 'vertical'
+  center: number
+  thicknessCm: number
+  kind: 'exterior' | 'loadBearing' | 'partition' | 'custom'
+  from: WallEnd
+  to: WallEnd
+}
+
 export type FloorRow = {
   id: string
   project_id: string
@@ -15,6 +27,7 @@ export type FloorRow = {
   rotation_deg: number
   crop: { x: number; y: number; width: number; height: number } | null
   outline: { widthCm: number; heightCm: number } | null
+  walls: Wall[]
   created_at: string
 }
 
@@ -38,7 +51,9 @@ export type Database = {
       floors: {
         Row: FloorRow
         Insert: Pick<FloorRow, 'project_id' | 'position'>
-        Update: Partial<Pick<FloorRow, 'step' | 'plan' | 'rotation_deg' | 'crop' | 'outline'>>
+        Update: Partial<
+          Pick<FloorRow, 'step' | 'plan' | 'rotation_deg' | 'crop' | 'outline' | 'walls'>
+        >
         Relationships: [
           {
             foreignKeyName: 'floors_project_id_fkey'

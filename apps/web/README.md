@@ -1,6 +1,6 @@
 # @diwire/web
 
-The Diwire application: Vite, React, TanStack Router and Query, with every component coming from
+The DIWire application: Vite, React, TanStack Router and Query, with every component coming from
 [`@diwire/ui-kit`](../../packages/ui-kit).
 
 Setup and commands are in the [workspace README](../../README.md); where a new file goes is in

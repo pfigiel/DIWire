@@ -1,4 +1,4 @@
-# Diwire
+# DIWire
 
 A desktop-focused web app for planning electrical installations in houses.
 

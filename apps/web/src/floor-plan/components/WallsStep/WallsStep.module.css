@@ -1,0 +1,18 @@
+/* Only the image fades; the paper under it stays, so walls never end up on the bare workspace. */
+.underlay image {
+  @mixin transition;
+
+  opacity: 0.5;
+  transition-property: opacity;
+}
+
+.underlay[data-hidden] image {
+  opacity: 0;
+}
+
+.room {
+  fill: var(--dw-text-color-dimmed);
+  font-size: var(--dw-text-font-size-sm);
+  font-weight: var(--dw-font-weight-medium);
+  pointer-events: none;
+}

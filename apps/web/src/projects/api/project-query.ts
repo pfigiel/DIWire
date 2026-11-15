@@ -19,9 +19,26 @@ export type Plan = {
   height: number
 }
 
-type Outline = {
+export type Outline = {
   widthCm: number
   heightCm: number
+}
+
+/** Where a wall stops: on another wall, which it then follows, or at a point of its own along its run. */
+export type WallEnd = { wallId: string } | { position: number }
+
+export type WallKind = 'exterior' | 'loadBearing' | 'partition' | 'custom'
+
+/** In centimetres, from the outline's top-left corner. */
+export type Wall = {
+  id: string
+  orientation: 'horizontal' | 'vertical'
+  /** The centre line's place across the wall's run: y for a horizontal wall, x for a vertical one. */
+  center: number
+  thicknessCm: number
+  kind: WallKind
+  from: WallEnd
+  to: WallEnd
 }
 
 export type Floor = {
@@ -34,6 +51,7 @@ export type Floor = {
   /** In image pixels, in the rotated image's space with the origin at the image's centre. */
   crop: Rect | null
   outline: Outline | null
+  walls: Wall[]
 }
 
 export type Project = {
