@@ -44,7 +44,7 @@ is no local Auth to run.
 ## Deploying
 
 Every merge to `main` builds the app and deploys it to Vercel, in
-[the deploy workflow](../../.github/workflows/deploy.yml), which names the Vercel project and reads
+[the CI workflow](../../.github/workflows/ci.yml), which names the Vercel project and reads
 `VERCEL_TOKEN` from the repository's secrets. [`vercel.json`](vercel.json) holds the project's
 settings: every path serves `index.html` so the router can answer it, and Vercel's own Git
 deployments are off so the workflow is the only thing that deploys.
