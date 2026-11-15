@@ -1,0 +1,11 @@
+@each $tone in default, dimmed {
+  .$(tone) {
+    color: var(--dw-text-color-$(tone));
+  }
+}
+
+@each $size in sm, md {
+  .$(size) {
+    @mixin text $(size);
+  }
+}
