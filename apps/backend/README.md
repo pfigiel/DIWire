@@ -24,7 +24,11 @@ setup instead of Deno's import maps.
 The Supabase CLI is a dev dependency; run it with `pnpm exec supabase` from this folder.
 
 - **Locally**, with Docker running: `pnpm build`, then `pnpm exec supabase start` serves the
-  function at `http://127.0.0.1:54321/functions/v1/api`. The gateway verifies a JWT, so send
-  `Authorization: Bearer <ANON_KEY>` from the `start` output.
-- **Deploying**: `pnpm exec supabase link --project-ref <ref>` once, then `pnpm build` and
-  `pnpm functions:deploy`.
+  function at `http://127.0.0.1:54321/functions/v1/api`.
+- **Deploying** happens on every merge to `main`, in
+  [the deploy workflow](../../.github/workflows/deploy.yml), which names the project it deploys to
+  and reads `SUPABASE_ACCESS_TOKEN` from the repository's secrets. By hand, with the same two
+  variables exported: `pnpm build`, then `pnpm functions:deploy`.
+
+The gateway does not verify a JWT for this function (`verify_jwt = false` in
+`supabase/config.toml`): the app decides per route who may call it.

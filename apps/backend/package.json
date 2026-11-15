@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/main.ts",
     "build": "esbuild src/app.ts --bundle --format=esm --platform=neutral --minify --outfile=supabase/functions/api/app.js",
-    "functions:deploy": "supabase functions deploy api",
+    "functions:deploy": "supabase functions deploy api --use-api",
     "lint": "eslint .",
     "type:check": "tsc --noEmit"
   },
