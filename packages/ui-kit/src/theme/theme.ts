@@ -1,7 +1,7 @@
 import { createTheme } from '@mantine/core'
-import { fixedTokens } from './tokens'
+import { tokens } from './tokens'
 
 export const theme = createTheme({
-  fontFamily: fixedTokens.font.family.body,
-  headings: { fontFamily: fixedTokens.font.family.body },
+  fontFamily: tokens.font.family.body,
+  headings: { fontFamily: tokens.font.family.body },
 })
