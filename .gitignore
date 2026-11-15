@@ -1,0 +1,8 @@
+node_modules/
+.turbo/
+dist/
+.tanstack/
+storybook-static/
+.DS_Store
+.env
+.env.local
