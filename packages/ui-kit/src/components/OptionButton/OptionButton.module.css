@@ -1,0 +1,35 @@
+.root {
+  @mixin transition;
+
+  display: flex;
+  gap: var(--dw-spacing-md);
+  align-items: center;
+  width: 100%;
+  height: var(--dw-control-height-md);
+  padding-inline: var(--dw-spacing-md);
+  border: 1px solid var(--dw-border-color);
+  border-radius: var(--dw-radius-md);
+  background-color: var(--dw-surface-1-background-color);
+  color: var(--dw-text-color-default);
+  font-size: var(--dw-text-font-size-sm);
+  transition-property: background-color, border-color;
+
+  &:hover {
+    background-color: var(--dw-control-hover-background-color);
+  }
+
+  &[aria-pressed='true'] {
+    border-color: var(--dw-accent-color-default);
+    background-color: var(--dw-accent-color-subtle);
+    font-weight: var(--dw-font-weight-semibold);
+  }
+}
+
+.label {
+  flex: 1;
+}
+
+.detail {
+  color: var(--dw-text-color-dimmed);
+  font-weight: var(--dw-font-weight-regular);
+}
