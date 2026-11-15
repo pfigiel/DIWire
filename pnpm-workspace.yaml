@@ -22,6 +22,11 @@ catalogs:
     '@types/react': 19.2.18
     '@types/react-dom': 19.2.4
 
+# postcss-each re-parses each generated rule without its file, which Vite warns about; 1.1.0 is the
+# last release, so the patch hands PostCSS the nodes themselves.
+patchedDependencies:
+  postcss-each@1.1.0: patches/postcss-each@1.1.0.patch
+
 # Entry silences warning during package install. Latest release caps peer at ESLint 9, verified that 10 works fine.
 peerDependencyRules:
   allowedVersions:
