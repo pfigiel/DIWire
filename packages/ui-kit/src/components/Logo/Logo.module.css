@@ -1,0 +1,24 @@
+.root {
+  display: inline-flex;
+  gap: var(--dw-spacing-sm);
+  align-items: center;
+  color: var(--dw-text-color-default);
+  font-weight: var(--dw-font-weight-bold);
+  letter-spacing: var(--dw-heading-letter-spacing);
+  line-height: 1;
+}
+
+.mark {
+  flex: none;
+}
+
+@each $size in md, lg {
+  .$(size) {
+    font-size: var(--dw-logo-font-size-$(size));
+
+    & .mark {
+      width: var(--dw-logo-size-$(size));
+      height: var(--dw-logo-size-$(size));
+    }
+  }
+}

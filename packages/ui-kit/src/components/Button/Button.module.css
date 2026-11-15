@@ -1,0 +1,30 @@
+.root {
+  @mixin transition;
+
+  height: var(--dw-control-height-md);
+  padding-inline: var(--dw-spacing-lg);
+  border: 1px solid transparent;
+  border-radius: var(--dw-radius-md);
+  font-size: var(--dw-text-font-size-md);
+  font-weight: var(--dw-font-weight-semibold);
+  transition-property: background-color;
+}
+
+.primary {
+  background-color: var(--dw-accent-color-default);
+  color: var(--dw-accent-contrast-color);
+
+  &:hover {
+    background-color: var(--dw-accent-color-hover);
+  }
+}
+
+.secondary {
+  border-color: var(--dw-border-color);
+  background-color: transparent;
+  color: var(--dw-text-color-default);
+
+  &:hover {
+    background-color: var(--dw-control-hover-background-color);
+  }
+}

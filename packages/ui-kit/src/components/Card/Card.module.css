@@ -1,0 +1,8 @@
+.root {
+  border: 1px solid var(--dw-border-color);
+  border-radius: var(--dw-radius-lg);
+}
+
+.body {
+  padding: var(--dw-spacing-xl);
+}
