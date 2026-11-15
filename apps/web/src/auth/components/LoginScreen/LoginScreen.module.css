@@ -1,0 +1,21 @@
+.root {
+  display: grid;
+  gap: var(--dw-spacing-xl);
+  place-content: center;
+  place-items: center;
+  min-height: 100dvh;
+  padding: var(--dw-spacing-lg);
+}
+
+.card {
+  width: min(100%, var(--dw-layout-width-sm));
+}
+
+.body {
+  display: grid;
+  gap: var(--dw-spacing-lg);
+}
+
+.title {
+  text-align: center;
+}
