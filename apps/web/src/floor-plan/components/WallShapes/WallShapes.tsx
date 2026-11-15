@@ -1,3 +1,5 @@
+import { useId, useMemo } from 'react'
+import { outlinePathOf } from '@/floor-plan/utils/outline-path-of'
 import { jointsOf, wallRectOf } from '@/floor-plan/utils/walls'
 import type { Rect, Wall } from '@/projects/api/project-query'
 import classes from './WallShapes.module.css'
@@ -22,7 +24,12 @@ const pathOf = (rects: Rect[]) =>
 
 export const WallShapes = ({ walls, draft, start, selectedId, selectable, scale }: Props) => {
   const rectOf = (wall: Wall) => wallRectOf(wall, walls)
-  const shape = pathOf(walls.map(rectOf))
+  const clipId = useId()
+  const { shape, outline } = useMemo(() => {
+    const rects = walls.map((wall) => wallRectOf(wall, walls))
+
+    return { shape: pathOf(rects), outline: outlinePathOf(rects) }
+  }, [walls])
   const joints = draft === null ? [] : jointsOf(draft, walls)
 
   const stateOf = ({ id }: Wall) => {
@@ -33,10 +40,13 @@ export const WallShapes = ({ walls, draft, start, selectedId, selectable, scale 
 
   return (
     <g data-selectable={selectable || undefined}>
-      {/* The fill lies over the outline and hides every edge inside the shape, so walls that overlap at a join read as one. */}
+      <clipPath id={clipId}>
+        <path d={shape} />
+      </clipPath>
       <g className={classes.walls}>
-        <path className={classes.outline} d={shape} />
         <path className={classes.fill} d={shape} />
+        {/* Clipped to the shape, so the border lies inside the wall and adds nothing to its thickness. */}
+        <path className={classes.outline} d={outline} clipPath={`url(#${clipId})`} />
       </g>
       {walls.map((wall) => (
         <rect key={wall.id} {...rectOf(wall)} className={classes.wall} data-state={stateOf(wall)} />
