@@ -15,7 +15,8 @@ Rules for adding a component or a token are in [AGENTS.md](../../AGENTS.md#ui).
 
 `UiProvider` is the only provider an app mounts. The theme is fixed: `src/theme/tokens.ts` holds a
 light and a dark scheme, and `UiProvider` resolves them into the `--dw-*` custom properties
-stylesheets read. The scheme follows the system's unless `colorScheme` pins it.
+stylesheets read. The app renders the light one, the only scheme designed so far, whatever the
+system prefers; `colorScheme` pins either, which is how Storybook shows the dark one.
 
 Tokens come in two kinds, both in `tokens.ts`: **scheme** tokens each scheme defines its own value
 for, and **fixed** tokens, the same in both.
