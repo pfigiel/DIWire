@@ -30,3 +30,11 @@ User-facing text comes from `<domain>/locales/<locale>.json` through `t()`. Keys
 missing one fails `type:check` instead of rendering itself. Polish is the only locale for now;
 another is a `<domain>/locales/<locale>.json` per domain plus its entry in `src/locales/catalogs.ts`
 and `src/i18n.ts`.
+
+## Deploying
+
+Every merge to `main` builds the app and deploys it to Vercel, in
+[the deploy workflow](../../.github/workflows/deploy.yml), which names the Vercel project and reads
+`VERCEL_TOKEN` from the repository's secrets. [`vercel.json`](vercel.json) holds the project's
+settings: every path serves `index.html` so the router can answer it, and Vercel's own Git
+deployments are off so the workflow is the only thing that deploys.

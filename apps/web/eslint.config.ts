@@ -2,7 +2,7 @@ import { defineConfig } from 'eslint/config'
 import { react } from '@diwire/eslint-config'
 
 export default defineConfig(
-  { ignores: ['dist/**', 'src/routing/routeTree.gen.ts'] },
+  { ignores: ['dist/**', '.vercel/**', 'src/routing/routeTree.gen.ts'] },
   react(import.meta.dirname),
   {
     rules: {
