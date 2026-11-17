@@ -8,6 +8,14 @@
     "create": "Utwórz projekt",
     "failed": "Nie udało się utworzyć projektu. Spróbuj ponownie."
   },
+  "delete": {
+    "open": "Usuń projekt {{name}}",
+    "title": "Usunąć projekt?",
+    "warning": "Projekt „{{name}}” zostanie usunięty razem ze wszystkimi kondygnacjami i wgranymi planami. Tego nie da się cofnąć.",
+    "confirm": "Usuń projekt",
+    "cancel": "Anuluj",
+    "failed": "Nie udało się usunąć projektu. Spróbuj ponownie."
+  },
   "floor": {
     "ground": "Parter",
     "upper": "Piętro {{number}}"

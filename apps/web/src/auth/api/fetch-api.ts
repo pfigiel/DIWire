@@ -1,7 +1,7 @@
 import { getSession } from './session'
 
 type Options = {
-  method: 'POST' | 'PATCH'
+  method: 'POST' | 'PATCH' | 'DELETE'
   body?: unknown
 }
 

@@ -1,4 +1,8 @@
 .root {
+  position: relative;
+}
+
+.link {
   @mixin transition;
 
   display: block;
@@ -10,6 +14,12 @@
   &:hover {
     box-shadow: var(--dw-shadow-md);
   }
+}
+
+.delete {
+  position: absolute;
+  top: var(--dw-spacing-md);
+  right: var(--dw-spacing-md);
 }
 
 .body {
