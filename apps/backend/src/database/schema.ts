@@ -12,6 +12,20 @@ type Wall = {
   to: WallEnd
 }
 
+type Opening = {
+  id: string
+  wallId: string
+  kind: 'door' | 'window' | 'garage'
+  widthCm: number
+  leafWidthCm: number | null
+  sillCm: number | null
+  anchor: 'from' | 'to'
+  anchorWallId: string | null
+  offsetCm: number
+  hinge: 'from' | 'to'
+  opensTo: 'min' | 'max'
+}
+
 export type FloorRow = {
   id: string
   project_id: string
@@ -30,6 +44,7 @@ export type FloorRow = {
   walls: Wall[]
   locks: { a: string; b: string; valueCm: number }[]
   rooms: { name: string; x: number; y: number }[]
+  openings: Opening[]
   created_at: string
 }
 
@@ -56,7 +71,15 @@ export type Database = {
         Update: Partial<
           Pick<
             FloorRow,
-            'step' | 'plan' | 'rotation_deg' | 'crop' | 'outline' | 'walls' | 'locks' | 'rooms'
+            | 'step'
+            | 'plan'
+            | 'rotation_deg'
+            | 'crop'
+            | 'outline'
+            | 'walls'
+            | 'locks'
+            | 'rooms'
+            | 'openings'
           >
         >
         Relationships: [
