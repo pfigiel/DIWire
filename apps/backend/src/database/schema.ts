@@ -55,6 +55,14 @@ type ProjectRow = {
   created_at: string
 }
 
+export type ProjectShareRow = {
+  project_id: string
+  user_id: string
+  status: 'pending' | 'accepted'
+  invited_by: string
+  created_at: string
+}
+
 /** The shape postgrest-js infers query results from; it mirrors `supabase/migrations`. */
 export type Database = {
   public: {
@@ -92,12 +100,30 @@ export type Database = {
           },
         ]
       }
+      project_shares: {
+        Row: ProjectShareRow
+        Insert: never
+        Update: Partial<Pick<ProjectShareRow, 'status'>>
+        Relationships: [
+          {
+            foreignKeyName: 'project_shares_project_id_fkey'
+            columns: ['project_id']
+            isOneToOne: false
+            referencedRelation: 'projects'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Views: Record<never, never>
     Functions: {
       create_project: {
         Args: { name: string }
         Returns: { id: string; floor_id: string }[]
+      }
+      share_project: {
+        Args: { project_id: string; email: string }
+        Returns: boolean
       }
     }
   }

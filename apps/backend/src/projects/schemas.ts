@@ -16,6 +16,8 @@ export const idSchema = z.uuid()
 
 export const newProjectSchema = z.object({ name: z.string().trim().min(1).max(80) })
 
+export const shareSchema = z.object({ email: z.string().trim().toLowerCase().pipe(z.email()) })
+
 const wallEnd = z.union([
   z.strictObject({ wallId: z.uuid() }),
   z.strictObject({ position: z.number() }),

@@ -1,2 +1,2 @@
 export { databaseOf } from './database-of'
-export type { FloorRow, Step } from './schema'
+export type { FloorRow, ProjectShareRow, Step } from './schema'
