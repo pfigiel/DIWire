@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Button, Heading, Text, useDisclosure } from '@diwire/ui-kit'
 import { projectsQuery } from '@/projects/api/projects-query'
 import { Shell } from '@/shell/components/Shell'
+import { InvitationCard } from '../InvitationCard'
 import { NewProjectModal } from '../NewProjectModal'
 import { ProjectCard } from '../ProjectCard'
 import classes from './ProjectsScreen.module.css'
@@ -31,7 +32,11 @@ export const ProjectsScreen = () => {
           <ul className={classes.list}>
             {projects.map((project) => (
               <li key={project.id}>
-                <ProjectCard project={project} />
+                {project.share?.status === 'pending' ? (
+                  <InvitationCard project={project} share={project.share} />
+                ) : (
+                  <ProjectCard project={project} />
+                )}
               </li>
             ))}
           </ul>

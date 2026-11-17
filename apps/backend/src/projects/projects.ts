@@ -3,7 +3,8 @@ import { z } from 'zod'
 import { requireUser, type UserEnv } from '../auth'
 import { databaseOf } from '../database'
 import { floorColumns, floorOf } from './floor-of'
-import { floorChangesSchema, idSchema, newProjectSchema } from './schemas'
+import { floorChangesSchema, idSchema, newProjectSchema, shareSchema } from './schemas'
+import { shareOf } from './share-of'
 import { idParams, jsonBody } from './validated'
 
 const projectParams = idParams(z.object({ projectId: idSchema }))
@@ -16,13 +17,18 @@ export const projects = new Hono<UserEnv>()
   .get('/', async (context) => {
     const { data, error } = await databaseOf(context)
       .from('projects')
-      .select('id, name, floors(id, position, step)')
+      .select('id, name, floors(id, position, step), project_shares(status, invited_by)')
       .order('created_at', { ascending: false })
       .order('position', { referencedTable: 'floors' })
 
     if (error) throw new Error(error.message)
 
-    return context.json(data)
+    return context.json(
+      data.map(({ project_shares: shares, ...project }) => ({
+        ...project,
+        share: shareOf(shares),
+      })),
+    )
   })
   .post('/', jsonBody(newProjectSchema), async (context) => {
     const { data, error } = await databaseOf(context)
@@ -36,7 +42,7 @@ export const projects = new Hono<UserEnv>()
   .get('/:projectId', projectParams, async (context) => {
     const { data, error } = await databaseOf(context)
       .from('projects')
-      .select(`id, name, floors(${floorColumns})`)
+      .select(`id, name, floors(${floorColumns}), project_shares(status)`)
       .eq('id', context.req.valid('param').projectId)
       .order('position', { referencedTable: 'floors' })
       .maybeSingle()
@@ -44,7 +50,11 @@ export const projects = new Hono<UserEnv>()
     if (error) throw new Error(error.message)
     if (data === null) return context.json(notFound, 404)
 
-    return context.json({ ...data, floors: data.floors.map(floorOf) })
+    const { project_shares: shares, ...project } = data
+
+    if (shares.some(({ status }) => status === 'pending')) return context.json(notFound, 404)
+
+    return context.json({ ...project, floors: project.floors.map(floorOf) })
   })
   .delete('/:projectId', projectParams, async (context) => {
     const { data, error } = await databaseOf(context)
@@ -58,6 +68,45 @@ export const projects = new Hono<UserEnv>()
     if (data === null) return context.json(notFound, 404)
 
     return context.json(data)
+  })
+  .post('/:projectId/shares', projectParams, jsonBody(shareSchema), async (context) => {
+    const { data: owned, error } = await databaseOf(context).rpc('share_project', {
+      project_id: context.req.valid('param').projectId,
+      email: context.req.valid('json').email,
+    })
+
+    if (error) throw new Error(error.message)
+    if (!owned) return context.json(notFound, 404)
+
+    return context.json({}, 201)
+  })
+  .post('/:projectId/invitation/accept', projectParams, async (context) => {
+    const { data, error } = await databaseOf(context)
+      .from('project_shares')
+      .update({ status: 'accepted' })
+      .eq('project_id', context.req.valid('param').projectId)
+      .eq('status', 'pending')
+      .select('project_id')
+      .maybeSingle()
+
+    if (error) throw new Error(error.message)
+    if (data === null) return context.json(notFound, 404)
+
+    return context.json({})
+  })
+  .delete('/:projectId/invitation', projectParams, async (context) => {
+    const { data, error } = await databaseOf(context)
+      .from('project_shares')
+      .delete()
+      .eq('project_id', context.req.valid('param').projectId)
+      .eq('status', 'pending')
+      .select('project_id')
+      .maybeSingle()
+
+    if (error) throw new Error(error.message)
+    if (data === null) return context.json(notFound, 404)
+
+    return context.json({})
   })
   .post('/:projectId/floors', projectParams, async (context) => {
     const database = databaseOf(context)

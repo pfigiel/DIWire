@@ -1,10 +1,11 @@
-import { IconTrash } from '@tabler/icons-react'
+import { IconShare, IconTrash } from '@tabler/icons-react'
 import { Link } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { Card, Heading, IconButton, Text, useDisclosure } from '@diwire/ui-kit'
+import { ActionMenu, Card, Heading, Text, useDisclosure } from '@diwire/ui-kit'
 import type { ProjectSummary } from '@/projects/api/projects-query'
 import { floorNameOf } from '@/projects/utils/floor-name-of'
 import { DeleteProjectModal } from '../DeleteProjectModal'
+import { ShareProjectModal } from '../ShareProjectModal'
 import classes from './ProjectCard.module.css'
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 
 export const ProjectCard = ({ project }: Props) => {
   const { t } = useTranslation()
+  const [sharingOpened, sharing] = useDisclosure(false)
   const [deletionOpened, deletion] = useDisclosure(false)
 
   return (
@@ -25,6 +27,11 @@ export const ProjectCard = ({ project }: Props) => {
               <Text size="sm" tone="dimmed">
                 {t('projects.floors', { count: project.floors.length })}
               </Text>
+              {project.share === null ? null : (
+                <Text size="sm" tone="dimmed">
+                  {t('projects.share.sharedBy', { email: project.share.invitedBy })}
+                </Text>
+              )}
             </div>
             <ul className={classes.floors}>
               {project.floors.map((floor) => (
@@ -39,15 +46,22 @@ export const ProjectCard = ({ project }: Props) => {
           </Card.Body>
         </Card>
       </Link>
-      <div className={classes.delete}>
-        <IconButton
-          label={t('projects.delete.open', { name: project.name })}
-          onClick={deletion.open}
-        >
-          <IconTrash aria-hidden />
-        </IconButton>
-      </div>
-      <DeleteProjectModal project={project} opened={deletionOpened} onClose={deletion.close} />
+      {project.share === null ? (
+        <>
+          <div className={classes.menu}>
+            <ActionMenu label={t('projects.menu.label', { name: project.name })}>
+              <ActionMenu.Item icon={<IconShare aria-hidden />} onClick={sharing.open}>
+                {t('projects.menu.share')}
+              </ActionMenu.Item>
+              <ActionMenu.Item icon={<IconTrash aria-hidden />} onClick={deletion.open}>
+                {t('projects.menu.delete')}
+              </ActionMenu.Item>
+            </ActionMenu>
+          </div>
+          <ShareProjectModal project={project} opened={sharingOpened} onClose={sharing.close} />
+          <DeleteProjectModal project={project} opened={deletionOpened} onClose={deletion.close} />
+        </>
+      ) : null}
     </div>
   )
 }

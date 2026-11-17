@@ -16,7 +16,7 @@
   }
 }
 
-.delete {
+.menu {
   position: absolute;
   top: var(--dw-spacing-md);
   right: var(--dw-spacing-md);

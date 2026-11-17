@@ -35,6 +35,11 @@ decides what the request reaches and no route holds a key that bypasses it. The 
 project's publishable key, which the Edge runtime provides as `SUPABASE_PUBLISHABLE_KEYS` and
 `pnpm dev` reads from `.env.development`.
 
+An owner shares a project by email through the `share_project` function, the one place that reads
+`auth.users`; it answers the same whether or not the email has an account. The invitee's row in
+`project_shares` starts `pending`, which shows them the project's name only, and reaches the floors
+and their plan images once `accepted`. Deleting a project and sharing it stay with the owner.
+
 The schema lives in `supabase/migrations`, and `src/database/schema.ts` mirrors it for the types a
 query returns: a migration that changes a table changes that file with it. Plan images sit in the
 private `plans` storage bucket, each under a folder named after its owner's id; the web app uploads

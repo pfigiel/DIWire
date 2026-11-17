@@ -1,0 +1,25 @@
+.root {
+  border-style: dashed;
+}
+
+.body {
+  display: grid;
+  gap: var(--dw-spacing-md);
+  justify-items: start;
+  padding: var(--dw-spacing-lg);
+}
+
+.pending {
+  padding: var(--dw-spacing-xs) var(--dw-spacing-sm);
+  border-radius: var(--dw-radius-full);
+  background-color: var(--dw-warning-background-color);
+  color: var(--dw-warning-color);
+  font-size: var(--dw-text-font-size-xs);
+  font-weight: var(--dw-font-weight-semibold);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dw-spacing-sm);
+}

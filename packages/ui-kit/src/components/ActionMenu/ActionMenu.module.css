@@ -1,0 +1,44 @@
+.trigger {
+  @mixin transition;
+
+  width: var(--dw-control-height-md);
+  height: var(--dw-control-height-sm);
+  border: 1px solid var(--dw-border-color);
+  border-radius: var(--dw-radius-md);
+  background-color: transparent;
+  color: var(--dw-text-color-default);
+  transition-property: background-color;
+
+  &:hover {
+    background-color: var(--dw-control-hover-background-color);
+  }
+
+  & svg {
+    width: var(--dw-icon-size-md);
+    height: var(--dw-icon-size-md);
+  }
+}
+
+.dropdown {
+  @mixin surface 2;
+
+  border-color: var(--dw-border-color);
+  border-radius: var(--dw-radius-md);
+}
+
+.item {
+  @mixin transition;
+
+  color: var(--dw-text-color-default);
+  font-size: var(--dw-text-font-size-sm);
+  transition-property: background-color;
+
+  &[data-hovered] {
+    background-color: var(--dw-control-hover-background-color);
+  }
+
+  & svg {
+    width: var(--dw-icon-size-md);
+    height: var(--dw-icon-size-md);
+  }
+}

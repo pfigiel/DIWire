@@ -1,5 +1,6 @@
 export { useDisclosure } from '@mantine/hooks'
 export { UiProvider } from './theme/UiProvider'
+export { ActionMenu } from './components/ActionMenu'
 export { AppShell } from './components/AppShell'
 export { AvatarMenu } from './components/AvatarMenu'
 export { Button } from './components/Button'

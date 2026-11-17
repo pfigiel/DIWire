@@ -8,8 +8,29 @@
     "create": "Utwórz projekt",
     "failed": "Nie udało się utworzyć projektu. Spróbuj ponownie."
   },
+  "menu": {
+    "label": "Opcje projektu {{name}}",
+    "share": "Udostępnij",
+    "delete": "Usuń"
+  },
+  "share": {
+    "title": "Udostępnij projekt",
+    "email": "Adres e-mail",
+    "hint": "Jeśli istnieje konto z tym adresem, jego właściciel dostanie zaproszenie do projektu „{{name}}”. Po przyjęciu będzie mógł go oglądać i edytować.",
+    "send": "Wyślij zaproszenie",
+    "sent": "Gotowe. Jeśli konto z adresem {{email}} istnieje, zaproszenie czeka na jego pulpicie.",
+    "close": "Zamknij",
+    "failed": "Nie udało się udostępnić projektu. Spróbuj ponownie.",
+    "sharedBy": "Udostępnia {{email}}"
+  },
+  "invitation": {
+    "pending": "Oczekuje na akceptację",
+    "from": "{{email}} zaprasza Cię do tego projektu.",
+    "accept": "Przyjmij",
+    "reject": "Odrzuć",
+    "failed": "Nie udało się odpowiedzieć na zaproszenie. Spróbuj ponownie."
+  },
   "delete": {
-    "open": "Usuń projekt {{name}}",
     "title": "Usunąć projekt?",
     "warning": "Projekt „{{name}}” zostanie usunięty razem ze wszystkimi kondygnacjami i wgranymi planami. Tego nie da się cofnąć.",
     "confirm": "Usuń projekt",
