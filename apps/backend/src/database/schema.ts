@@ -121,6 +121,10 @@ export type Database = {
         Args: { name: string }
         Returns: { id: string; floor_id: string }[]
       }
+      delete_floor: {
+        Args: { project_id: string; floor_id: string }
+        Returns: 'deleted' | 'last' | 'missing'
+      }
       share_project: {
         Args: { project_id: string; email: string }
         Returns: boolean

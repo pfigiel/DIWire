@@ -154,3 +154,17 @@ export const projects = new Hono<UserEnv>()
       return context.json(floorOf(data))
     },
   )
+  .delete('/:projectId/floors/:floorId', floorParams, async (context) => {
+    const { projectId, floorId } = context.req.valid('param')
+
+    const { data: outcome, error } = await databaseOf(context).rpc('delete_floor', {
+      project_id: projectId,
+      floor_id: floorId,
+    })
+
+    if (error) throw new Error(error.message)
+    if (outcome === 'missing') return context.json(notFound, 404)
+    if (outcome === 'last') return context.json({ error: 'A project keeps its last floor' }, 409)
+
+    return context.json({})
+  })
