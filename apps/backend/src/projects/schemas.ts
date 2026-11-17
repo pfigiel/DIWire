@@ -25,8 +25,9 @@ const wall = z.object({
   id: z.uuid(),
   orientation: z.enum(['horizontal', 'vertical']),
   center: z.number(),
-  thicknessCm: size,
-  kind: z.enum(['exterior', 'loadBearing', 'partition', 'custom']),
+  // A divider splits a room without being a wall, so it alone has no thickness.
+  thicknessCm: z.number().nonnegative(),
+  kind: z.enum(['exterior', 'loadBearing', 'partition', 'custom', 'divider']),
   from: wallEnd,
   to: wallEnd,
 })
@@ -58,5 +59,11 @@ export const floorChangesSchema = z
     crop: z.object({ x: z.number(), y: z.number(), width: size, height: size }).nullable(),
     outline: z.object({ widthCm: size, heightCm: size }).nullable(),
     walls: z.array(wall).max(1000).refine(endsAttachToWalls),
+    locks: z
+      .array(z.object({ a: z.string().min(1), b: z.string().min(1), valueCm: size }))
+      .max(2000),
+    rooms: z
+      .array(z.object({ name: z.string().trim().min(1).max(60), x: z.number(), y: z.number() }))
+      .max(500),
   })
   .partial()
