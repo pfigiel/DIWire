@@ -33,3 +33,9 @@ peerDependencyRules:
   allowedVersions:
     eslint-plugin-react>eslint: '10'
     eslint-plugin-jsx-a11y>eslint: '10'
+
+auditConfig:
+  ignoreGhsas:
+    # picomatch ReDoS on a crafted glob pattern; no fixed release is published. It is reached only
+    # through lint and build tooling, which match patterns from our own configuration.
+    - GHSA-fc5q-39xc-vjpf
