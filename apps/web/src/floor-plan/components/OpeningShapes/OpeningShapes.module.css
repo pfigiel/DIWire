@@ -1,0 +1,39 @@
+.root {
+  --opening-color: var(--dw-text-color-default);
+
+  cursor: pointer;
+
+  &[data-state='selected'] {
+    --opening-color: var(--dw-accent-color-hover);
+  }
+
+  &[data-state='ghost'] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+/* Paper over the wall, so the opening reads as a hole in it. */
+.gap {
+  fill: var(--dw-surface-1-background-color);
+  stroke: var(--opening-color);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.line {
+  fill: none;
+  stroke: var(--opening-color);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+
+  /* Dashed, as a garage door is drawn: it lifts away overhead rather than swinging. */
+  &[data-kind='garage'] {
+    stroke-dasharray: 8 5;
+  }
+
+  [data-state='selected'] > & {
+    stroke-width: 2.5;
+  }
+}

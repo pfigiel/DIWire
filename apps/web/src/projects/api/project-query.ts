@@ -56,6 +56,32 @@ export type RoomName = {
   y: number
 }
 
+/**
+ * A door, a window or a garage door in a wall. It sits a distance from a corner of that wall, since that is what a
+ * plan gives and what stays true when walls move: the corner is the face of a wall crossing this
+ * one, or this wall's own end.
+ */
+export type Opening = {
+  id: string
+  wallId: string
+  kind: 'door' | 'window' | 'garage'
+  /** The whole opening in the wall; for a door that is its frame included. */
+  widthCm: number
+  /** The door's leaf alone, which is what swings; null for anything but a door. */
+  leafWidthCm: number | null
+  /** How high above the floor a window starts; null for anything but a window. */
+  sillCm: number | null
+  /** Which side of the opening its corner is on, along the wall's run. */
+  anchor: 'from' | 'to'
+  /** The crossing wall whose face is the corner; null when it is the wall's own end. */
+  anchorWallId: string | null
+  /** From the corner to the opening's nearer edge. */
+  offsetCm: number
+  /** A door's hinged edge, and the side of the wall it swings out to; nothing else uses either. */
+  hinge: 'from' | 'to'
+  opensTo: 'min' | 'max'
+}
+
 export type Floor = {
   id: string
   position: number
@@ -69,6 +95,7 @@ export type Floor = {
   walls: Wall[]
   locks: Lock[]
   rooms: RoomName[]
+  openings: Opening[]
 }
 
 export type Project = {

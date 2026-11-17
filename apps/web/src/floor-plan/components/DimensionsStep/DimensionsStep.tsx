@@ -2,12 +2,16 @@ import { IconLock } from '@tabler/icons-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button, Progress, Text } from '@diwire/ui-kit'
+import { useFloorEditor } from '@/floor-plan/contexts/floor-editor'
 import { useDimensions } from '@/floor-plan/hooks/use-dimensions'
+import { useUpdateFloor } from '@/floor-plan/hooks/use-update-floor'
 import type { Dimension } from '@/floor-plan/utils/dimensions-of'
 import type { Point } from '@/floor-plan/utils/geometry'
 import { namedRoomsOf } from '@/floor-plan/utils/named-rooms-of'
 import type { Region } from '@/floor-plan/utils/regions-of'
 import { hits, labelSizeOf, spanMarkOf } from '@/floor-plan/utils/span-mark-of'
+import { furthestStepOf } from '@/floor-plan/utils/steps'
+import { typedLengthOf } from '@/floor-plan/utils/typed-length-of'
 import { spanLabelOf } from '@/formatting/labels'
 import type { Outline } from '@/projects/api/project-query'
 import { InlineField } from '../InlineField'
@@ -30,10 +34,10 @@ const outlineOffsetPx = 36
 const characterPx = 8
 const roomLabelHeightPx = 24
 
-const typedLengthOf = (text: string) => Number.parseFloat(text.replace(/\s/g, '').replace(',', '.'))
-
 export const DimensionsStep = ({ outline }: Props) => {
   const { t } = useTranslation()
+  const { floor, selectStep } = useFloorEditor()
+  const advance = useUpdateFloor()
   const plan = useDimensions(outline)
   const [editing, setEditing] = useState<Editing>(null)
   const rooms = namedRoomsOf(t, plan.regions, plan.names)
@@ -168,7 +172,21 @@ export const DimensionsStep = ({ outline }: Props) => {
           )}
         </>
       }
-      failed={plan.failed}
+      action={
+        <Button
+          disabled={plan.unique.length === 0}
+          loading={advance.isPending}
+          onClick={() =>
+            advance.mutate(
+              { step: furthestStepOf(floor.step, 'openings') },
+              { onSuccess: () => selectStep('openings') },
+            )
+          }
+        >
+          {t('floorPlan.dimensions.advance')}
+        </Button>
+      }
+      failed={plan.failed || advance.isError}
     >
       <PlanCanvas
         label={t('floorPlan.dimensions.canvas')}

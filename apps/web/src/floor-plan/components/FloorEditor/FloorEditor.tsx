@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { FloorEditorContext } from '@/floor-plan/contexts/floor-editor'
-import { furthestStepOf } from '@/floor-plan/utils/steps'
 import type { Floor, Project, Step } from '@/projects/api/project-query'
 import { CropStep } from '../CropStep'
 import { DimensionsStep } from '../DimensionsStep'
 import { FileStep } from '../FileStep'
+import { OpeningsStep } from '../OpeningsStep'
 import { ScaleStep } from '../ScaleStep'
 import { WallsStep } from '../WallsStep'
 
@@ -26,14 +26,13 @@ const stepScreenOf = (floor: Floor, activeStep: Step) => {
     return <WallsStep plan={floor.plan} crop={floor.crop} outline={floor.outline} />
   }
 
-  return <DimensionsStep outline={floor.outline} />
+  if (activeStep === 'dimensions') return <DimensionsStep outline={floor.outline} />
+
+  return <OpeningsStep plan={floor.plan} crop={floor.crop} outline={floor.outline} />
 }
 
 export const FloorEditor = ({ project, floor }: Props) => {
-  // Dimensions is the last step built, so a floor further along still opens there.
-  const [activeStep, setActiveStep] = useState<Step>(() =>
-    furthestStepOf(floor.step, 'dimensions') === floor.step ? 'dimensions' : floor.step,
-  )
+  const [activeStep, setActiveStep] = useState<Step>(floor.step)
 
   return (
     <FloorEditorContext value={{ project, floor, activeStep, selectStep: setActiveStep }}>
