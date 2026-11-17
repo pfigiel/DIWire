@@ -18,6 +18,8 @@ export const tokens = {
     contrast: { color: '#ffffff' },
   },
   success: { color: '#1f7a4d', contrast: { color: '#ffffff' } },
+  /** Something in the way of what the user just tried. */
+  warning: { color: '#9a3412', line: { color: '#c2410c' }, background: { color: '#fff1e8' } },
   control: {
     height: { xs: '2.25rem', sm: '2.5rem', md: '2.875rem' },
     /** Translucent, so a hovered control darkens whatever surface it sits on. */
