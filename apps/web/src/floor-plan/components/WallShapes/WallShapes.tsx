@@ -1,6 +1,6 @@
 import { useId, useMemo } from 'react'
 import { outlinePathOf } from '@/floor-plan/utils/outline-path-of'
-import { jointsOf, wallRectOf } from '@/floor-plan/utils/walls'
+import { isDivider, jointsOf, wallRectOf } from '@/floor-plan/utils/walls'
 import type { Rect, Wall } from '@/projects/api/project-query'
 import classes from './WallShapes.module.css'
 
@@ -18,19 +18,24 @@ type Props = {
 }
 
 const jointPx = 7
+const startPx = 5
 
 const pathOf = (rects: Rect[]) =>
   rects.map(({ x, y, width, height }) => `M${x} ${y}h${width}v${height}h${-width}z`).join('')
 
+/** A divider has no thickness, so its rectangle is the line it runs along. */
+const lineOf = ({ x, y, width, height }: Rect) => ({ x1: x, y1: y, x2: x + width, y2: y + height })
+
 export const WallShapes = ({ walls, draft, start, selectedId, selectable, scale }: Props) => {
-  const rectOf = (wall: Wall) => wallRectOf(wall, walls)
   const clipId = useId()
+  const rectOf = (wall: Wall) => wallRectOf(wall, walls)
+  const joints = draft === null ? [] : jointsOf(draft, walls)
+
   const { shape, outline } = useMemo(() => {
-    const rects = walls.map((wall) => wallRectOf(wall, walls))
+    const rects = walls.filter((wall) => !isDivider(wall)).map((wall) => wallRectOf(wall, walls))
 
     return { shape: pathOf(rects), outline: outlinePathOf(rects) }
   }, [walls])
-  const joints = draft === null ? [] : jointsOf(draft, walls)
 
   const stateOf = ({ id }: Wall) => {
     if (joints.some(({ wallId }) => wallId === id)) return 'target'
@@ -48,14 +53,35 @@ export const WallShapes = ({ walls, draft, start, selectedId, selectable, scale 
         {/* Clipped to the shape, so the border lies inside the wall and adds nothing to its thickness. */}
         <path className={classes.outline} d={outline} clipPath={`url(#${clipId})`} />
       </g>
-      {walls.map((wall) => (
-        <rect key={wall.id} {...rectOf(wall)} className={classes.wall} data-state={stateOf(wall)} />
-      ))}
-      {start === null ? null : <rect {...start} className={classes.draft} />}
-      {draft === null ? null : <rect {...rectOf(draft)} className={classes.draft} />}
-      {joints.map(({ wallId, point }) => (
+      {walls.map((wall) =>
+        isDivider(wall) ? (
+          <g key={wall.id} className={classes.divider} data-state={stateOf(wall)}>
+            <line {...lineOf(rectOf(wall))} className={classes.dividerLine} />
+            {/* Wide and unseen, so a line a pixel or two across can still be hovered. */}
+            <line {...lineOf(rectOf(wall))} className={classes.dividerReach} />
+          </g>
+        ) : (
+          <rect
+            key={wall.id}
+            {...rectOf(wall)}
+            className={classes.wall}
+            data-state={stateOf(wall)}
+          />
+        ),
+      )}
+      {start === null ? null : start.width === 0 ? (
+        <circle className={classes.draft} cx={start.x} cy={start.y} r={startPx / scale} />
+      ) : (
+        <rect {...start} className={classes.draft} />
+      )}
+      {draft === null ? null : isDivider(draft) ? (
+        <line {...lineOf(rectOf(draft))} className={classes.dividerDraft} />
+      ) : (
+        <rect {...rectOf(draft)} className={classes.draft} />
+      )}
+      {joints.map(({ wallId, point }, index) => (
         <circle
-          key={wallId}
+          key={`${wallId}-${index}`}
           className={classes.joint}
           cx={point.x}
           cy={point.y}

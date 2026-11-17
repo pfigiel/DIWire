@@ -64,13 +64,13 @@
       "exterior": "Zewnętrzna",
       "loadBearing": "Nośna",
       "partition": "Działowa",
-      "custom": "Inna grubość"
+      "custom": "Inna grubość",
+      "divider": "Podział pomieszczenia"
     },
     "thickness": "Grubość",
     "unit": "cm",
     "delete": "Usuń ścianę",
     "underlay": "Rzut pod spodem",
-    "room": "Pomieszczenie {{number}}",
     "canvas": "Rzut z narysowanymi ścianami",
     "drawHint": "Kliknij tam, gdzie ściana się zaczyna, a potem tam, gdzie się kończy. Esc przerywa rysowanie. Ściany są zawsze proste.",
     "selectHint": "Kliknij ścianę, żeby zmienić jej rodzaj albo ją usunąć.",
@@ -78,6 +78,24 @@
       "label": "Narzędzie",
       "draw": "Rysuj",
       "select": "Zaznacz"
-    }
+    },
+    "next": "Dalej: wymiary"
+  },
+  "rooms": {
+    "unnamed": "Pomieszczenie {{number}}",
+    "name": "Nazwa pomieszczenia"
+  },
+  "dimensions": {
+    "verified": "Zweryfikowane",
+    "hint": "Kliknij szary wymiar i wpisz wartość ze swojego rzutu, w centymetrach. Wpisane wymiary się blokują, szare dopasowują się do nich. Kliknij nazwę pomieszczenia, żeby ją zmienić.",
+    "locked": "Zablokowany",
+    "unverified": "Niezweryfikowany",
+    "next": "Pokaż następny niezweryfikowany",
+    "value": "Wymiar w centymetrach",
+    "refused": "Nie da się ustawić {{value}}. Zablokowane wymiary i grubości ścian muszą razem dać dokładnie wymiar budynku, a po tej zmianie by nie dały. Kliknij jeden z wymiarów zaznaczonych na pomarańczowo, żeby go odblokować.",
+    "done": "Wszystkie wymiary zweryfikowane. Rzut zgadza się z planem.",
+    "empty": "Nie ma jeszcze żadnego zamkniętego pomieszczenia. Wróć do ścian i domknij je.",
+    "canvas": "Rzut z wymiarami pomieszczeń",
+    "refusedWithFix": "Nie da się ustawić {{value}}. Ten wymiar, wymiar zaznaczony na pomarańczowo i grubości ścian muszą razem dać dokładnie wymiar budynku. Żeby się zgadzało, pomarańczowy musiałby mieć {{needed}} zamiast {{locked}}. Kliknij go, żeby go odblokować."
   }
 }

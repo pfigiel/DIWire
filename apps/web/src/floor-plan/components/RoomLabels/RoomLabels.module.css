@@ -1,0 +1,11 @@
+.name {
+  fill: var(--dw-text-color-default);
+  font-size: var(--dw-text-font-size-sm);
+  font-weight: var(--dw-font-weight-semibold);
+  pointer-events: none;
+
+  [data-renamable] > & {
+    cursor: text;
+    pointer-events: auto;
+  }
+}

@@ -1,15 +1,17 @@
 import type { Outline, Rect, Wall, WallEnd, WallKind } from '@/projects/api/project-query'
 import type { Point, Stroke } from './geometry'
 
-type Preset = Exclude<WallKind, 'custom'>
+type Preset = Exclude<WallKind, 'custom' | 'divider'>
 
 export const presetKinds = ['exterior', 'loadBearing', 'partition'] as const satisfies Preset[]
 
 export const presetThicknessCm = {
-  exterior: 44,
+  exterior: 45,
   loadBearing: 25,
   partition: 12,
 } as const satisfies Record<Preset, number>
+
+export const isDivider = ({ kind }: Wall) => kind === 'divider'
 
 const clamped = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
 
@@ -92,16 +94,26 @@ export const draftWallOf = ({
   const [first, last] = [alongOf(stroke.from), alongOf(stroke.to)].sort((a, b) => a - b)
 
   // A free end reaches half a thickness past its point, so the wall covers the square shown there.
-  const endOf = (along: number, outward: -1 | 1): WallEnd => {
+  const targetAt = (along: number) => {
     const spot = horizontal ? { x: along, y: center } : { x: center, y: along }
-    const target = walls.find(
-      (wall) => wall.orientation !== orientation && contains(wallRectOf(wall, walls), spot, reach),
-    )
 
-    return target === undefined
+    return walls.find(
+      (wall) =>
+        wall.orientation !== orientation &&
+        // A wall cannot hang off a divider, which is no wall; a divider can end on either.
+        (kind === 'divider' || !isDivider(wall)) &&
+        contains(wallRectOf(wall, walls), spot, reach),
+    )
+  }
+
+  const targets = [targetAt(first ?? 0), targetAt(last ?? 0)]
+  // Both ends on one wall means the points straddle it: a wall across it, not one hanging off it.
+  const straddles = targets[0] !== undefined && targets[0] === targets[1]
+
+  const endOf = (along: number, outward: -1 | 1, target: Wall | undefined): WallEnd =>
+    target === undefined || straddles
       ? { position: fittedCenterOf(along, thicknessCm, extent.along) + (outward * thicknessCm) / 2 }
       : { wallId: target.id }
-  }
 
   return {
     id,
@@ -109,9 +121,55 @@ export const draftWallOf = ({
     center,
     thicknessCm,
     kind,
-    from: endOf(first ?? 0, -1),
-    to: endOf(last ?? 0, 1),
+    from: endOf(first ?? 0, -1, targets[0]),
+    to: endOf(last ?? 0, 1, targets[1]),
   }
+}
+
+/**
+ * A start point moved onto the free end of a wall it is aimed at, so that a wall begun there lines
+ * up with the first: its outer side on the line of the end, and one of its sides on a side of the
+ * first wall. Two walls of one thickness have a single such place; of different thicknesses, one on
+ * each side, and the nearer is taken. Drawn by hand, a corner is always a few centimetres off.
+ */
+export const flushStartOf = (
+  point: Point,
+  thicknessCm: number,
+  walls: Wall[],
+  reach: number,
+): Point => {
+  const corners = walls
+    .filter((wall) => !isDivider(wall))
+    .flatMap((wall) => {
+      const lies = wall.orientation === 'horizontal'
+      const rect = wallRectOf(wall, walls)
+      const start = lies ? rect.x : rect.y
+      const length = lies ? rect.width : rect.height
+      const pointer = lies
+        ? { along: point.x, across: point.y }
+        : { along: point.y, across: point.x }
+      // Inside the wall's own end: half a thickness in from the free end it has there.
+      const insets = [
+        ...('position' in wall.from ? [start + thicknessCm / 2] : []),
+        ...('position' in wall.to ? [start + length - thicknessCm / 2] : []),
+      ]
+      // Flush with one side of the wall or with the other; the same place when both are as thick.
+      const inward = (wall.thicknessCm - thicknessCm) / 2
+      const sides = [wall.center - inward, wall.center + inward]
+      const aimed =
+        Math.abs(pointer.across - wall.center) <= wall.thicknessCm / 2 + reach &&
+        insets.some((along) => Math.abs(pointer.along - along) <= thicknessCm / 3 + reach)
+
+      return aimed
+        ? insets.flatMap((along) =>
+            sides.map((across) => (lies ? { x: along, y: across } : { x: across, y: along })),
+          )
+        : []
+    })
+    .map((corner) => ({ corner, distance: Math.hypot(corner.x - point.x, corner.y - point.y) }))
+    .sort((a, b) => a.distance - b.distance)
+
+  return corners[0]?.corner ?? point
 }
 
 /** The footprint a wall of this thickness would start with at a point, kept inside the outline. */
@@ -121,6 +179,39 @@ export const startRectOf = ({ x, y }: Point, thicknessCm: number, outline: Outli
   width: thicknessCm,
   height: thicknessCm,
 })
+
+/** A free end this close to a wall drawn across it was meant to stop at that wall, not short of it or past it. */
+const cornerToleranceCm = 15
+
+/**
+ * The walls with a new one added, and the corners it makes tidied: where the new wall attaches to
+ * another right at that wall's free end, the end is moved onto the new wall's outer side. Walls drawn
+ * earlier are never quite where the last one needs them, so the corner that closes a room would
+ * otherwise show a step or an overhang.
+ */
+export const joinedWallsOf = (walls: Wall[], added: Wall): Wall[] => {
+  if (isDivider(added)) return [...walls, added]
+
+  const near = added.center - added.thicknessCm / 2
+  const far = added.center + added.thicknessCm / 2
+  const attachedTo = new Set(jointsOf(added, walls).map(({ wallId }) => wallId))
+
+  const tidied = (end: WallEnd, flush: number): WallEnd =>
+    'position' in end &&
+    end.position >= near - cornerToleranceCm &&
+    end.position <= far + cornerToleranceCm
+      ? { position: flush }
+      : end
+
+  return [
+    ...walls.map((wall) =>
+      attachedTo.has(wall.id) && !isDivider(wall)
+        ? { ...wall, from: tidied(wall.from, near), to: tidied(wall.to, far) }
+        : wall,
+    ),
+    added,
+  ]
+}
 
 /** How far apart two picked points are along the axis a wall between them would take. */
 export const strokeLengthOf = ({ from, to }: Stroke) =>

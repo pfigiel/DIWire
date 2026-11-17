@@ -9,10 +9,3 @@
 .underlay[data-hidden] image {
   opacity: 0;
 }
-
-.room {
-  fill: var(--dw-text-color-dimmed);
-  font-size: var(--dw-text-font-size-sm);
-  font-weight: var(--dw-font-weight-medium);
-  pointer-events: none;
-}

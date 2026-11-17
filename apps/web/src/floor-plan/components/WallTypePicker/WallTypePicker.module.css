@@ -13,3 +13,10 @@
     background-color: var(--dw-text-color-default);
   }
 }
+
+/* Dashed like the line it draws: a divider splits a room without being a wall. */
+.divider {
+  flex: none;
+  width: var(--dw-spacing-lg);
+  border-top: 2px dashed var(--dw-text-color-dimmed);
+}

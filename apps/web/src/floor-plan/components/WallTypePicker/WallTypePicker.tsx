@@ -41,6 +41,13 @@ export const WallTypePicker = ({
       <OptionButton selected={kind === 'custom'} onClick={() => onSelect('custom')}>
         {t('floorPlan.walls.kinds.custom')}
       </OptionButton>
+      <OptionButton
+        selected={kind === 'divider'}
+        icon={<span className={classes.divider} />}
+        onClick={() => onSelect('divider')}
+      >
+        {t('floorPlan.walls.kinds.divider')}
+      </OptionButton>
       {kind === 'custom' ? (
         <NumberInput
           label={t('floorPlan.walls.thickness')}
