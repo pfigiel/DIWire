@@ -17,6 +17,7 @@
     "dimensions": "Wymiary",
     "openings": "Drzwi i okna"
   },
+  "underlay": "Rzut pod spodem",
   "failed": "Nie udało się zapisać. Spróbuj ponownie.",
   "zoom": {
     "out": "Pomniejsz",
@@ -70,7 +71,6 @@
     "thickness": "Grubość",
     "unit": "cm",
     "delete": "Usuń ścianę",
-    "underlay": "Rzut pod spodem",
     "canvas": "Rzut z narysowanymi ścianami",
     "drawHint": "Kliknij tam, gdzie ściana się zaczyna, a potem tam, gdzie się kończy. Esc przerywa rysowanie. Ściany są zawsze proste.",
     "selectHint": "Kliknij ścianę, żeby zmienić jej rodzaj albo ją usunąć.",
@@ -96,6 +96,42 @@
     "done": "Wszystkie wymiary zweryfikowane. Rzut zgadza się z planem.",
     "empty": "Nie ma jeszcze żadnego zamkniętego pomieszczenia. Wróć do ścian i domknij je.",
     "canvas": "Rzut z wymiarami pomieszczeń",
-    "refusedWithFix": "Nie da się ustawić {{value}}. Ten wymiar, wymiar zaznaczony na pomarańczowo i grubości ścian muszą razem dać dokładnie wymiar budynku. Żeby się zgadzało, pomarańczowy musiałby mieć {{needed}} zamiast {{locked}}. Kliknij go, żeby go odblokować."
+    "refusedWithFix": "Nie da się ustawić {{value}}. Ten wymiar, wymiar zaznaczony na pomarańczowo i grubości ścian muszą razem dać dokładnie wymiar budynku. Żeby się zgadzało, pomarańczowy musiałby mieć {{needed}} zamiast {{locked}}. Kliknij go, żeby go odblokować.",
+    "advance": "Dalej: drzwi i okna"
+  },
+  "openings": {
+    "hints": {
+      "select": "Kliknij drzwi, okno albo bramę, żeby je zaznaczyć.",
+      "door": "Kliknij ścianę tam, gdzie mają być drzwi.",
+      "window": "Kliknij ścianę tam, gdzie ma być okno.",
+      "garage": "Kliknij ścianę tam, gdzie ma być brama garażowa."
+    },
+    "position": "Przy zaznaczonym otworze widać odległości od obu narożników. Kliknij jedną z nich i wpisz wartość ze swojego rzutu, w centymetrach.",
+    "tools": {
+      "label": "Narzędzie",
+      "select": "Zaznacz",
+      "door": "Drzwi",
+      "window": "Okno",
+      "garage": "Brama"
+    },
+    "kinds": {
+      "door": "Drzwi",
+      "window": "Okno",
+      "garage": "Brama garażowa"
+    },
+    "widths": {
+      "door": "Szerokość z ościeżnicą",
+      "window": "Szerokość",
+      "garage": "Szerokość"
+    },
+    "leafWidth": "Szerokość skrzydła",
+    "sill": "Wysokość parapetu",
+    "unit": "cm",
+    "flipHinge": "Zmień stronę zawiasów",
+    "flipSwing": "Zmień kierunek otwierania",
+    "delete": "Usuń",
+    "distance": "Odległość od narożnika w centymetrach",
+    "refused": "To się tu nie mieści. Drzwi, okna i bramy muszą leżeć w całości między narożnikami ściany i nie mogą na siebie nachodzić, a skrzydło drzwi nie może być szersze niż drzwi z ościeżnicą.",
+    "canvas": "Rzut z drzwiami i oknami"
   }
 }

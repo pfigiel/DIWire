@@ -1,11 +1,11 @@
 /* Only the image fades; the paper under it stays, so walls never end up on the bare workspace. */
-.underlay image {
+.root image {
   @mixin transition;
 
   opacity: 0.5;
   transition-property: opacity;
 }
 
-.underlay[data-hidden] image {
+.root[data-hidden] image {
   opacity: 0;
 }

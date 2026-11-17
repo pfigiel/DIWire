@@ -13,7 +13,8 @@ type Props = {
 const tickPx = 7
 
 export const SpanMark = ({ mark: { from, to, labelAt }, label, state, scale }: Props) => {
-  const length = Math.hypot(to.x - from.x, to.y - from.y)
+  // A span of no length still gets its label; it has no direction to draw ticks across.
+  const length = Math.hypot(to.x - from.x, to.y - from.y) || 1
   const tick = {
     x: ((from.y - to.y) / length) * (tickPx / scale),
     y: ((to.x - from.x) / length) * (tickPx / scale),

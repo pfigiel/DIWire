@@ -6,8 +6,10 @@ import { useFloorEditor } from '@/floor-plan/contexts/floor-editor'
 import { useUpdateFloor } from '@/floor-plan/hooks/use-update-floor'
 import type { Point } from '@/floor-plan/utils/geometry'
 import { namedRoomsOf } from '@/floor-plan/utils/named-rooms-of'
+import { carriedOpeningsOf } from '@/floor-plan/utils/openings'
 import { regionsOf } from '@/floor-plan/utils/regions-of'
 import { furthestStepOf } from '@/floor-plan/utils/steps'
+import { typesInto } from '@/floor-plan/utils/types-into'
 import {
   draftWallOf,
   flushStartOf,
@@ -21,13 +23,12 @@ import {
   wallRectOf,
 } from '@/floor-plan/utils/walls'
 import type { Outline, Plan, Rect, Wall, WallKind } from '@/projects/api/project-query'
-import { CroppedPlan } from '../CroppedPlan'
 import { PlanCanvas } from '../PlanCanvas'
+import { PlanUnderlay } from '../PlanUnderlay'
 import { RoomLabels } from '../RoomLabels'
 import { StepLayout } from '../StepLayout'
 import { WallShapes } from '../WallShapes'
 import { WallTypePicker } from '../WallTypePicker'
-import classes from './WallsStep.module.css'
 
 type Props = {
   plan: Plan
@@ -42,15 +43,12 @@ const flushPx = 4
 const minLengthCm = 10
 const defaultCustomThicknessCm = 20
 
-/** Whether a key pressed there edits text, so Backspace must not also delete a wall. */
-const typesInto = (target: EventTarget | null) =>
-  target instanceof HTMLInputElement && target.type !== 'radio' && target.type !== 'checkbox'
-
 export const WallsStep = ({ plan, crop, outline }: Props) => {
   const { t } = useTranslation()
   const { floor, selectStep } = useFloorEditor()
   const update = useUpdateFloor()
   const [walls, setWalls] = useState(floor.walls)
+  const [openings, setOpenings] = useState(floor.openings)
   const [tool, setTool] = useState<Tool>('draw')
   const [kind, setKind] = useState<WallKind>('exterior')
   const [customThicknessCm, setCustomThicknessCm] = useState(defaultCustomThicknessCm)
@@ -73,9 +71,12 @@ export const WallsStep = ({ plan, crop, outline }: Props) => {
   }
 
   const commit = (next: Wall[]) => {
+    const carried = carriedOpeningsOf(openings, walls, next)
+
     setWalls(next)
+    setOpenings(carried)
     // A verified dimension names wall faces, and says nothing reliable once those walls change.
-    update.mutate({ walls: next, locks: [] })
+    update.mutate({ walls: next, locks: [], openings: carried })
   }
 
   const retype = (id: string, toKind: WallKind, thicknessCm: number) =>
@@ -206,7 +207,7 @@ export const WallsStep = ({ plan, crop, outline }: Props) => {
             />
           )}
           <Switch
-            label={t('floorPlan.walls.underlay')}
+            label={t('floorPlan.underlay')}
             checked={underlayShown}
             onChange={setUnderlayShown}
           />
@@ -256,13 +257,7 @@ export const WallsStep = ({ plan, crop, outline }: Props) => {
       >
         {({ scale }) => (
           <>
-            <g
-              className={classes.underlay}
-              data-hidden={!underlayShown || undefined}
-              transform={`scale(${outline.widthCm / crop.width} ${outline.heightCm / crop.height}) translate(${-crop.x} ${-crop.y})`}
-            >
-              <CroppedPlan plan={plan} rotationDeg={floor.rotationDeg} crop={crop} />
-            </g>
+            <PlanUnderlay plan={plan} crop={crop} outline={outline} shown={underlayShown} />
             <WallShapes
               walls={walls}
               draft={draft}

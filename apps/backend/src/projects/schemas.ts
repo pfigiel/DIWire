@@ -43,6 +43,20 @@ const endsAttachToWalls = (walls: Wall[]) => {
   )
 }
 
+const opening = z.object({
+  id: z.uuid(),
+  wallId: z.uuid(),
+  kind: z.enum(['door', 'window', 'garage']),
+  widthCm: size,
+  leafWidthCm: size.nullable(),
+  sillCm: z.number().nonnegative().nullable(),
+  anchor: z.enum(['from', 'to']),
+  anchorWallId: z.uuid().nullable(),
+  offsetCm: z.number().nonnegative(),
+  hinge: z.enum(['from', 'to']),
+  opensTo: z.enum(['min', 'max']),
+})
+
 export const floorChangesSchema = z
   .object({
     step: z.enum(steps),
@@ -65,5 +79,6 @@ export const floorChangesSchema = z
     rooms: z
       .array(z.object({ name: z.string().trim().min(1).max(60), x: z.number(), y: z.number() }))
       .max(500),
+    openings: z.array(opening).max(1000),
   })
   .partial()

@@ -1,6 +1,7 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react'
 import { useFloorEditor } from '@/floor-plan/contexts/floor-editor'
 import type { Dimension } from '@/floor-plan/utils/dimensions-of'
+import { standingOpeningsOf } from '@/floor-plan/utils/openings'
 import { regionsOf, type Region } from '@/floor-plan/utils/regions-of'
 import { renamedRoomsOf, settledRoomsOf } from '@/floor-plan/utils/room-names'
 import {
@@ -66,7 +67,7 @@ export const useDimensions = (outline: Outline) => {
 
   const saveStart = useEffectEvent(() => {
     if (moved(floor.walls, walls) || locks.length !== floor.locks.length) {
-      update.mutate({ walls, locks })
+      update.mutate({ walls, locks, openings: standingOpeningsOf(floor.openings, walls) })
     }
   })
 
@@ -141,7 +142,12 @@ export const useDimensions = (outline: Outline) => {
     setPlan({ walls: solved, locks: next })
     setNames(settled)
     setRefusal(null)
-    update.mutate({ walls: solved, locks: next, rooms: settled })
+    update.mutate({
+      walls: solved,
+      locks: next,
+      rooms: settled,
+      openings: standingOpeningsOf(floor.openings, solved),
+    })
   }
 
   const unlock = (dimension: Dimension) => {
