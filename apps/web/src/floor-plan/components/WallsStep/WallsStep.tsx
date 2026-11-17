@@ -1,13 +1,17 @@
 import { IconPencil, IconPointer, IconTrash } from '@tabler/icons-react'
 import { useEffect, useEffectEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IconButton, SegmentedControl, Switch, Text } from '@diwire/ui-kit'
+import { Button, IconButton, SegmentedControl, Switch, Text } from '@diwire/ui-kit'
 import { useFloorEditor } from '@/floor-plan/contexts/floor-editor'
 import { useUpdateFloor } from '@/floor-plan/hooks/use-update-floor'
 import type { Point } from '@/floor-plan/utils/geometry'
-import { roomsOf } from '@/floor-plan/utils/rooms-of'
+import { namedRoomsOf } from '@/floor-plan/utils/named-rooms-of'
+import { regionsOf } from '@/floor-plan/utils/regions-of'
+import { furthestStepOf } from '@/floor-plan/utils/steps'
 import {
   draftWallOf,
+  flushStartOf,
+  joinedWallsOf,
   presetThicknessCm,
   remainingWallsOf,
   retypedWallsOf,
@@ -19,6 +23,7 @@ import {
 import type { Outline, Plan, Rect, Wall, WallKind } from '@/projects/api/project-query'
 import { CroppedPlan } from '../CroppedPlan'
 import { PlanCanvas } from '../PlanCanvas'
+import { RoomLabels } from '../RoomLabels'
 import { StepLayout } from '../StepLayout'
 import { WallShapes } from '../WallShapes'
 import { WallTypePicker } from '../WallTypePicker'
@@ -33,6 +38,7 @@ type Props = {
 type Tool = 'draw' | 'select'
 
 const reachPx = 6
+const flushPx = 4
 const minLengthCm = 10
 const defaultCustomThicknessCm = 20
 
@@ -42,7 +48,7 @@ const typesInto = (target: EventTarget | null) =>
 
 export const WallsStep = ({ plan, crop, outline }: Props) => {
   const { t } = useTranslation()
-  const { floor } = useFloorEditor()
+  const { floor, selectStep } = useFloorEditor()
   const update = useUpdateFloor()
   const [walls, setWalls] = useState(floor.walls)
   const [tool, setTool] = useState<Tool>('draw')
@@ -56,20 +62,20 @@ export const WallsStep = ({ plan, crop, outline }: Props) => {
 
   const selected = walls.find(({ id }) => id === selectedId)
   const rooms = useMemo(
-    () =>
-      roomsOf(
-        walls.map((wall) => wallRectOf(wall, walls)),
-        outline,
-      ),
-    [walls, outline],
+    () => namedRoomsOf(t, regionsOf(walls, outline, { dividers: true }), floor.rooms),
+    [t, walls, outline, floor.rooms],
   )
 
-  const thicknessOf = (ofKind: WallKind, custom = customThicknessCm) =>
-    ofKind === 'custom' ? custom : presetThicknessCm[ofKind]
+  const thicknessOf = (ofKind: WallKind, custom = customThicknessCm) => {
+    if (ofKind === 'divider') return 0
+
+    return ofKind === 'custom' ? custom : presetThicknessCm[ofKind]
+  }
 
   const commit = (next: Wall[]) => {
     setWalls(next)
-    update.mutate({ walls: next })
+    // A verified dimension names wall faces, and says nothing reliable once those walls change.
+    update.mutate({ walls: next, locks: [] })
   }
 
   const retype = (id: string, toKind: WallKind, thicknessCm: number) =>
@@ -137,9 +143,9 @@ export const WallsStep = ({ plan, crop, outline }: Props) => {
     const wall = wallTo(crypto.randomUUID(), point, scale)
 
     if (wall === null) {
-      setStart(point)
+      setStart(flushStartOf(point, thicknessCm, walls, flushPx / scale))
     } else if (start !== null && strokeLengthOf({ from: start, to: point }) >= minLengthCm) {
-      commit([...walls, wall])
+      commit(joinedWallsOf(walls, wall))
       setStart(null)
     }
   }
@@ -150,7 +156,13 @@ export const WallsStep = ({ plan, crop, outline }: Props) => {
   const drawing = tool === 'draw' && pointer !== null
   const draft = drawing ? wallTo('draft', pointer.point, pointer.scale) : null
   const startRect =
-    drawing && start === null ? startRectOf(pointer.point, thicknessCm, outline) : null
+    drawing && start === null
+      ? startRectOf(
+          flushStartOf(pointer.point, thicknessCm, walls, flushPx / pointer.scale),
+          thicknessCm,
+          outline,
+        )
+      : null
 
   const selectedRect = selected === undefined ? undefined : wallRectOf(selected, walls)
 
@@ -200,6 +212,20 @@ export const WallsStep = ({ plan, crop, outline }: Props) => {
           />
         </>
       }
+      action={
+        <Button
+          disabled={rooms.length === 0}
+          loading={update.isPending && update.variables.step !== undefined}
+          onClick={() =>
+            update.mutate(
+              { step: furthestStepOf(floor.step, 'dimensions') },
+              { onSuccess: () => selectStep('dimensions') },
+            )
+          }
+        >
+          {t('floorPlan.walls.next')}
+        </Button>
+      }
       failed={update.isError}
     >
       <PlanCanvas
@@ -245,17 +271,7 @@ export const WallsStep = ({ plan, crop, outline }: Props) => {
               selectable={tool === 'select'}
               scale={scale}
             />
-            {rooms.map(({ x, y }, index) => (
-              <text
-                key={`${x}-${y}`}
-                className={classes.room}
-                textAnchor="middle"
-                dominantBaseline="central"
-                transform={`translate(${x} ${y}) scale(${1 / scale})`}
-              >
-                {t('floorPlan.walls.room', { number: index + 1 })}
-              </text>
-            ))}
+            <RoomLabels rooms={rooms} renamable={false} scale={scale} />
           </>
         )}
       </PlanCanvas>

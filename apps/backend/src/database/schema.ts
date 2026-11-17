@@ -7,7 +7,7 @@ type Wall = {
   orientation: 'horizontal' | 'vertical'
   center: number
   thicknessCm: number
-  kind: 'exterior' | 'loadBearing' | 'partition' | 'custom'
+  kind: 'exterior' | 'loadBearing' | 'partition' | 'custom' | 'divider'
   from: WallEnd
   to: WallEnd
 }
@@ -28,6 +28,8 @@ export type FloorRow = {
   crop: { x: number; y: number; width: number; height: number } | null
   outline: { widthCm: number; heightCm: number } | null
   walls: Wall[]
+  locks: { a: string; b: string; valueCm: number }[]
+  rooms: { name: string; x: number; y: number }[]
   created_at: string
 }
 
@@ -52,7 +54,10 @@ export type Database = {
         Row: FloorRow
         Insert: Pick<FloorRow, 'project_id' | 'position'>
         Update: Partial<
-          Pick<FloorRow, 'step' | 'plan' | 'rotation_deg' | 'crop' | 'outline' | 'walls'>
+          Pick<
+            FloorRow,
+            'step' | 'plan' | 'rotation_deg' | 'crop' | 'outline' | 'walls' | 'locks' | 'rooms'
+          >
         >
         Relationships: [
           {

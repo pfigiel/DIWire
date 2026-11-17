@@ -1,0 +1,63 @@
+.root {
+  --mark-color: var(--dw-text-color-default);
+  --mark-background-color: var(--dw-surface-1-background-color);
+
+  cursor: pointer;
+
+  &[data-state='unverified'] {
+    --mark-color: var(--dw-text-color-dimmed);
+  }
+
+  &[data-state='blocking'] {
+    --mark-color: var(--dw-warning-color);
+    --mark-background-color: var(--dw-warning-background-color);
+  }
+}
+
+.line,
+.ticks {
+  fill: none;
+  stroke: var(--mark-color);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+[data-state='unverified'] > .line {
+  stroke-dasharray: 6 4;
+}
+
+[data-state='blocking'] > .line,
+[data-state='blocking'] > .ticks {
+  stroke: var(--dw-warning-line-color);
+}
+
+.pill {
+  fill: var(--mark-background-color);
+}
+
+.label {
+  fill: var(--mark-color);
+  font-size: var(--dw-text-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+
+  [data-state='locked'] &,
+  [data-state='blocking'] & {
+    font-weight: var(--dw-font-weight-semibold);
+  }
+}
+
+.lock {
+  pointer-events: none;
+
+  & rect {
+    fill: var(--mark-color);
+  }
+
+  & path {
+    fill: none;
+    stroke: var(--mark-color);
+    stroke-width: 1.6;
+  }
+}

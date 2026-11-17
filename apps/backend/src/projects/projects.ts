@@ -46,6 +46,19 @@ export const projects = new Hono<UserEnv>()
 
     return context.json({ ...data, floors: data.floors.map(floorOf) })
   })
+  .delete('/:projectId', projectParams, async (context) => {
+    const { data, error } = await databaseOf(context)
+      .from('projects')
+      .delete()
+      .eq('id', context.req.valid('param').projectId)
+      .select('id')
+      .maybeSingle()
+
+    if (error) throw new Error(error.message)
+    if (data === null) return context.json(notFound, 404)
+
+    return context.json(data)
+  })
   .post('/:projectId/floors', projectParams, async (context) => {
     const database = databaseOf(context)
     const { projectId } = context.req.valid('param')

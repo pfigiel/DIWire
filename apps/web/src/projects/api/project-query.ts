@@ -27,7 +27,8 @@ export type Outline = {
 /** Where a wall stops: on another wall, which it then follows, or at a point of its own along its run. */
 export type WallEnd = { wallId: string } | { position: number }
 
-export type WallKind = 'exterior' | 'loadBearing' | 'partition' | 'custom'
+/** A divider is not a wall: it has no thickness and only splits an open space into rooms. */
+export type WallKind = 'exterior' | 'loadBearing' | 'partition' | 'custom' | 'divider'
 
 /** In centimetres, from the outline's top-left corner. */
 export type Wall = {
@@ -41,6 +42,20 @@ export type Wall = {
   to: WallEnd
 }
 
+/** A verified dimension: the distance from one wall face to another, each named "<wall id>:<min|max|from|to>". */
+export type Lock = {
+  a: string
+  b: string
+  valueCm: number
+}
+
+/** A name the user gave a room. Rooms are derived from the walls, so it belongs to whichever room holds its point. */
+export type RoomName = {
+  name: string
+  x: number
+  y: number
+}
+
 export type Floor = {
   id: string
   position: number
@@ -52,6 +67,8 @@ export type Floor = {
   crop: Rect | null
   outline: Outline | null
   walls: Wall[]
+  locks: Lock[]
+  rooms: RoomName[]
 }
 
 export type Project = {

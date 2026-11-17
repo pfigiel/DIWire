@@ -10,8 +10,8 @@ import classes from './PlanCanvas.module.css'
 /** Something shown beside a point of the sheet, following it as the view moves. */
 type Callout = {
   at: Point
-  /** Which way from the point it sits, so it does not cover what it belongs to. */
-  side: 'right' | 'below'
+  /** Which way from the point it sits, so it does not cover what it belongs to; or over it, to stand in for what is there. */
+  side: 'right' | 'below' | 'over'
   content: ReactNode
 }
 

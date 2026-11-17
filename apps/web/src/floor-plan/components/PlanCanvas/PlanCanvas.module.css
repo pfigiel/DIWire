@@ -56,6 +56,10 @@
   &[data-side='below'] {
     translate: -50% var(--dw-spacing-sm);
   }
+
+  &[data-side='over'] {
+    translate: -50% -50%;
+  }
 }
 
 .icon {

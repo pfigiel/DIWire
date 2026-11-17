@@ -1,0 +1,10 @@
+.root {
+  display: grid;
+  gap: var(--dw-spacing-md);
+}
+
+.actions {
+  display: flex;
+  gap: var(--dw-spacing-sm);
+  justify-content: end;
+}

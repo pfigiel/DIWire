@@ -49,3 +49,34 @@
   vector-effect: non-scaling-stroke;
   pointer-events: none;
 }
+
+.dividerLine,
+.dividerDraft {
+  stroke: var(--dw-text-color-dimmed);
+  stroke-width: 2;
+  stroke-dasharray: 8 6;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.dividerDraft,
+.divider[data-state] > .dividerLine {
+  stroke: var(--dw-accent-color-hover);
+  stroke-width: 3;
+}
+
+.dividerReach {
+  stroke: transparent;
+  stroke-width: 14;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+
+  [data-selectable] & {
+    cursor: pointer;
+    pointer-events: stroke;
+  }
+}
+
+[data-selectable] .divider:hover > .dividerLine {
+  stroke: var(--dw-accent-color-default);
+}

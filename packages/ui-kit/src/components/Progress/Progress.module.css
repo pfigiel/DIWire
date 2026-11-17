@@ -1,0 +1,38 @@
+.root {
+  display: grid;
+  gap: var(--dw-spacing-sm);
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--dw-text-font-size-sm);
+}
+
+.label {
+  font-weight: var(--dw-font-weight-semibold);
+}
+
+.count {
+  font-weight: var(--dw-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.max {
+  color: var(--dw-text-color-dimmed);
+  font-weight: var(--dw-font-weight-regular);
+}
+
+.track {
+  height: var(--dw-spacing-sm);
+  border-radius: var(--dw-radius-full);
+  background-color: var(--dw-control-hover-background-color);
+}
+
+.bar {
+  @mixin transition;
+
+  border-radius: var(--dw-radius-full);
+  background-color: var(--dw-success-color);
+  transition-property: width;
+}

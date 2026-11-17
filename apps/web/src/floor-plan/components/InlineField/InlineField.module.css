@@ -1,0 +1,13 @@
+.root {
+  height: var(--dw-control-height-xs);
+  padding-inline: var(--dw-spacing-sm);
+  border: 2px solid var(--dw-accent-color-default);
+  border-radius: var(--dw-radius-md);
+  outline: none;
+  background-color: var(--dw-surface-1-background-color);
+  color: var(--dw-text-color-default);
+  font: inherit;
+  font-size: var(--dw-text-font-size-sm);
+  font-weight: var(--dw-font-weight-semibold);
+  text-align: center;
+}
