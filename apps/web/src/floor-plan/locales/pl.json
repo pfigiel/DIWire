@@ -6,7 +6,15 @@
     "electrical": "Elektryka"
   },
   "floors": {
-    "add": "Dodaj kondygnację"
+    "add": "Dodaj kondygnację",
+    "delete": {
+      "open": "Usuń kondygnację",
+      "title": "Usunąć kondygnację?",
+      "warning": "Kondygnacja „{{name}}” zostanie usunięta razem z wgranym planem i wszystkim, co na niej narysowano. Kondygnacje powyżej przesuną się o jedną w dół. Tego nie da się cofnąć.",
+      "confirm": "Usuń kondygnację",
+      "cancel": "Anuluj",
+      "failed": "Nie udało się usunąć kondygnacji. Spróbuj ponownie."
+    }
   },
   "steps": {
     "label": "Kroki rzutu",
